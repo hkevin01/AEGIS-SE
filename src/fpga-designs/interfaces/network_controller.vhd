@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 -- High-Speed Network Interface Controller for AEGIS-SE Defense Platform
 -- 10Gbps Ethernet with Packet Inspection and Security Features
--- 
+--
 -- Author: AEGIS-SE FPGA Team
 -- Copyright: Department of Defense - UNCLASSIFIED
 -- Version: 1.0
@@ -29,11 +29,11 @@ entity network_controller is
         DATA_WIDTH      : integer := 64;   -- 64-bit data path for 10Gbps
         PACKET_BUFFER_SIZE : integer := 8192; -- Packet buffer depth
         NUM_QUEUES      : integer := 8;     -- QoS priority queues
-        
+
         -- Performance Configuration
         CLOCK_FREQ_MHZ  : integer := 156;  -- 156.25 MHz for 10Gbps Ethernet
         MAX_PACKET_SIZE : integer := 9000;  -- Jumbo frame support
-        
+
         -- Security Configuration
         ENABLE_DPI      : boolean := true;  -- Deep packet inspection
         ENABLE_IDS      : boolean := true;  -- Intrusion detection
@@ -44,20 +44,20 @@ entity network_controller is
         clk_156         : in  STD_LOGIC;    -- 156.25 MHz network clock
         clk_user        : in  STD_LOGIC;    -- User logic clock
         rst_n           : in  STD_LOGIC;
-        
+
         -- Network Physical Interface (10Gbps Ethernet)
         -- XGMII Interface
         xgmii_txd       : out STD_LOGIC_VECTOR(63 downto 0);
         xgmii_txc       : out STD_LOGIC_VECTOR(7 downto 0);
         xgmii_rxd       : in  STD_LOGIC_VECTOR(63 downto 0);
         xgmii_rxc       : in  STD_LOGIC_VECTOR(7 downto 0);
-        
+
         -- Configuration Interface
         mac_address     : in  STD_LOGIC_VECTOR(47 downto 0);
         ip_address      : in  STD_LOGIC_VECTOR(31 downto 0);
         subnet_mask     : in  STD_LOGIC_VECTOR(31 downto 0);
         gateway_ip      : in  STD_LOGIC_VECTOR(31 downto 0);
-        
+
         -- User Data Interface (AXI4-Stream)
         -- TX Interface
         tx_axis_tdata   : in  STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
@@ -66,7 +66,7 @@ entity network_controller is
         tx_axis_tready  : out STD_LOGIC;
         tx_axis_tlast   : in  STD_LOGIC;
         tx_axis_tuser   : in  STD_LOGIC_VECTOR(7 downto 0); -- QoS priority
-        
+
         -- RX Interface
         rx_axis_tdata   : out STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         rx_axis_tkeep   : out STD_LOGIC_VECTOR(DATA_WIDTH/8-1 downto 0);
@@ -74,22 +74,22 @@ entity network_controller is
         rx_axis_tready  : in  STD_LOGIC;
         rx_axis_tlast   : out STD_LOGIC;
         rx_axis_tuser   : out STD_LOGIC_VECTOR(7 downto 0); -- Packet metadata
-        
+
         -- Crypto Interface
         crypto_key      : in  STD_LOGIC_VECTOR(255 downto 0); -- AES-256 key
         crypto_enable   : in  STD_LOGIC;
-        
+
         -- Security and Monitoring
         intrusion_alert : out STD_LOGIC;
         packet_drop_count : out STD_LOGIC_VECTOR(31 downto 0);
         bandwidth_usage : out STD_LOGIC_VECTOR(31 downto 0);
         security_events : out STD_LOGIC_VECTOR(15 downto 0);
-        
+
         -- MIL-STD-1553 Interface
         mil_std_1553_data : inout STD_LOGIC_VECTOR(15 downto 0);
         mil_std_1553_clk  : out STD_LOGIC;
         mil_std_1553_sync : out STD_LOGIC;
-        
+
         -- Status and Debug
         link_up         : out STD_LOGIC;
         network_active  : out STD_LOGIC;
@@ -137,7 +137,7 @@ architecture behavioral of network_controller is
             packet_metadata : out STD_LOGIC_VECTOR(31 downto 0)
         );
     end component;
-    
+
     component qos_scheduler is
         Generic (
             DATA_WIDTH : integer := DATA_WIDTH;
@@ -164,35 +164,35 @@ architecture behavioral of network_controller is
     signal mac_rx_data     : STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
     signal mac_rx_valid    : STD_LOGIC;
     signal mac_rx_ready    : STD_LOGIC;
-    
+
     -- Packet inspection signals
     signal dpi_data_out    : STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
     signal dpi_valid_out   : STD_LOGIC;
     signal threat_flag     : STD_LOGIC;
     signal packet_meta     : STD_LOGIC_VECTOR(31 downto 0);
-    
+
     -- QoS scheduler signals
     signal qos_data_out    : STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
     signal qos_valid_out   : STD_LOGIC;
     signal qos_ready       : STD_LOGIC;
-    
+
     -- Packet buffer management
     type packet_buffer_t is array (0 to PACKET_BUFFER_SIZE-1) of STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
     signal rx_packet_buffer : packet_buffer_t;
     signal tx_packet_buffer : packet_buffer_t;
     signal rx_buffer_ptr    : unsigned(12 downto 0);
     signal tx_buffer_ptr    : unsigned(12 downto 0);
-    
+
     -- Network statistics
     signal rx_packet_count  : unsigned(31 downto 0);
     signal tx_packet_count  : unsigned(31 downto 0);
     signal dropped_packets  : unsigned(31 downto 0);
     signal bandwidth_counter : unsigned(31 downto 0);
-    
+
     -- Security monitoring
     signal security_event_reg : STD_LOGIC_VECTOR(15 downto 0);
     signal intrusion_detected : STD_LOGIC;
-    
+
     -- Clock domain crossing
     signal cdc_tx_data     : STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
     signal cdc_tx_valid    : STD_LOGIC;
@@ -220,7 +220,7 @@ begin
             rx_valid    => mac_rx_valid,
             rx_ready    => mac_rx_ready
         );
-    
+
     -- Deep Packet Inspection module
     dpi_gen: if ENABLE_DPI generate
         dpi_inst: packet_inspector
@@ -238,7 +238,7 @@ begin
                 packet_metadata => packet_meta
             );
     end generate;
-    
+
     -- QoS Scheduler instantiation
     qos_inst: qos_scheduler
         Generic map (
@@ -255,7 +255,7 @@ begin
             out_valid   => qos_valid_out,
             out_ready   => qos_ready
         );
-    
+
     -- Packet buffer management
     rx_buffer_proc: process(clk_156)
     begin
@@ -276,7 +276,7 @@ begin
             end if;
         end if;
     end process;
-    
+
     tx_buffer_proc: process(clk_156)
     begin
         if rising_edge(clk_156) then
@@ -296,7 +296,7 @@ begin
             end if;
         end if;
     end process;
-    
+
     -- Security monitoring and intrusion detection
     security_proc: process(clk_156)
     begin
@@ -312,18 +312,18 @@ begin
                     security_event_reg(0) <= '1';
                     dropped_packets <= dropped_packets + 1;
                 end if;
-                
+
                 -- Bandwidth monitoring
                 if mac_rx_valid = '1' or mac_tx_valid = '1' then
                     bandwidth_counter <= bandwidth_counter + 1;
                 end if;
-                
+
                 -- Security event logging
                 security_event_reg(15 downto 8) <= packet_meta(7 downto 0);
             end if;
         end if;
     end process;
-    
+
     -- Clock domain crossing for user interface
     user_cdc_proc: process(clk_user)
     begin
@@ -338,7 +338,7 @@ begin
             end if;
         end if;
     end process;
-    
+
     -- MIL-STD-1553 protocol support
     mil_std_proc: process(clk_156)
         variable word_counter : integer range 0 to 31;
@@ -356,7 +356,7 @@ begin
                     word_counter := 0;
                     mil_std_1553_clk <= not mil_std_1553_clk;
                 end if;
-                
+
                 -- Sync pulse generation
                 if word_counter = 0 then
                     mil_std_1553_sync <= '1';
@@ -366,21 +366,21 @@ begin
             end if;
         end if;
     end process;
-    
+
     -- Output assignments
     mac_tx_data <= qos_data_out;
     mac_tx_valid <= qos_valid_out;
     qos_ready <= mac_tx_ready;
-    
+
     tx_axis_tready <= mac_tx_ready;
     rx_axis_tdata <= dpi_data_out when ENABLE_DPI else mac_rx_data;
     rx_axis_tvalid <= dpi_valid_out when ENABLE_DPI else mac_rx_valid;
     rx_axis_tkeep <= (others => '1');
     rx_axis_tlast <= '0'; -- Implement proper frame delimiting
     rx_axis_tuser <= packet_meta(7 downto 0);
-    
+
     mac_rx_ready <= rx_axis_tready;
-    
+
     -- Status outputs
     intrusion_alert <= intrusion_detected;
     packet_drop_count <= STD_LOGIC_VECTOR(dropped_packets);
@@ -423,7 +423,7 @@ architecture behavioral of ethernet_mac is
     signal tx_ready_int : STD_LOGIC;
     signal rx_valid_int : STD_LOGIC;
 begin
-    
+
     -- Simplified MAC implementation
     tx_proc: process(clk)
     begin
@@ -440,7 +440,7 @@ begin
             end if;
         end if;
     end process;
-    
+
     rx_proc: process(clk)
     begin
         if rising_edge(clk) then
@@ -453,7 +453,7 @@ begin
             end if;
         end if;
     end process;
-    
+
     tx_ready <= tx_ready_int;
     rx_valid <= rx_valid_int;
 

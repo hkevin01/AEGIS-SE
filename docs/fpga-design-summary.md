@@ -149,7 +149,7 @@ AEGIS-SE FPGA Platform
 
 ### Resource Utilization (Estimated for Xilinx UltraScale+)
 - **Logic Cells**: ~75% utilization
-- **Block RAM**: ~60% utilization  
+- **Block RAM**: ~60% utilization
 - **DSP Slices**: ~80% utilization
 - **Transceivers**: 8x 10G transceivers
 - **Power**: ~45W @ 200 MHz
@@ -238,7 +238,7 @@ The modular architecture enables flexible deployment across different mission re
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: 2025-09-26  
-**Classification**: UNCLASSIFIED  
+**Document Version**: 1.0
+**Last Updated**: 2025-09-26
+**Classification**: UNCLASSIFIED
 **Prepared by**: AEGIS-SE FPGA Team
