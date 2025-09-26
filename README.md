@@ -1,6 +1,6 @@
 # 🚀 AEGIS-SE: Advanced Embedded Government Intelligence Systems - Software Engineering
 
-[![CI/CD Pipeline](https://github.com/username/AEGIS-SE/workflows/AEGIS-SE%20CI%2FCD%20Pipeline/badge.svg)](https://github.com/username/AEGIS-SE/actions)
+[![CI/CD Pipeline](https://github.com/hkevin01/AEGIS-SE/workflows/AEGIS-SE%20CI%2FCD%20Pipeline/badge.svg)](https://github.com/hkevin01/AEGIS-SE/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Security Rating](https://img.shields.io/badge/Security-A+-green.svg)](https://github.com/username/AEGIS-SE/security)
 [![MISRA C Compliance](https://img.shields.io/badge/MISRA%20C-2012-blue.svg)](https://misra.org.uk/)
