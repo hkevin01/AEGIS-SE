@@ -13,7 +13,7 @@
 **AEGIS-SE** is a comprehensive defense systems engineering suite designed to demonstrate cutting-edge software engineering capabilities for Department of Defense applications at **Eglin Air Force Base**. This project serves as a **proof of concept** and **technology demonstrator** for the Software Engineering Institute (SEI) Advanced Deterrent group, showcasing the integration of:
 
 - **Mission-Critical Embedded Systems** with sub-millisecond response requirements
-- **FPGA Hardware Acceleration** for cryptographic and signal processing workloads  
+- **FPGA Hardware Acceleration** for cryptographic and signal processing workloads
 - **AI/ML Threat Detection** with real-time multi-sensor fusion capabilities
 - **Cybersecurity Methodologies** aligned with DoD standards and compliance frameworks
 - **Real-Time Operating Systems** integration for deterministic performance
@@ -53,8 +53,9 @@ AEGIS-SE serves as a **comprehensive technology demonstrator** for next-generati
 ### 🧠 Why Each Technology Was Chosen
 
 #### **C/C++ with MISRA-C 2012 Compliance**
+
 - **Purpose**: Safety-critical flight control and embedded systems
-- **Why Chosen**: 
+- **Why Chosen**:
   - Deterministic memory management for real-time systems
   - Extensive tooling for formal verification and static analysis
   - Proven track record in aerospace/defense applications (F-35, Apache, etc.)
@@ -62,6 +63,7 @@ AEGIS-SE serves as a **comprehensive technology demonstrator** for next-generati
 - **Key Benefits**: <1ms response times, 100% test coverage, formal verification compatibility
 
 #### **FPGA (VHDL/Verilog)**
+
 - **Purpose**: Hardware acceleration for cryptography and signal processing
 - **Why Chosen**:
   - Parallel processing capabilities for cryptographic operations (10+ Gbps AES throughput)
@@ -71,6 +73,7 @@ AEGIS-SE serves as a **comprehensive technology demonstrator** for next-generati
 - **Key Benefits**: Real-time encryption, quantum-resistant algorithm support, tamper detection
 
 #### **Python with AI/ML Frameworks**
+
 - **Purpose**: Intelligent threat detection and predictive analytics
 - **Why Chosen**:
   - Rich ecosystem of ML libraries (TensorFlow, PyTorch, scikit-learn)
@@ -80,6 +83,7 @@ AEGIS-SE serves as a **comprehensive technology demonstrator** for next-generati
 - **Key Benefits**: <10ms inference times, >95% threat detection accuracy, edge deployment
 
 #### **Ada/SPARK (Planned)**
+
 - **Purpose**: Highest-assurance safety-critical components
 - **Why Chosen**:
   - Mathematical proof of correctness through formal verification
@@ -100,41 +104,41 @@ graph TB
     classDef aimlClass fill:#2c1810,stroke:#744210,stroke-width:2px,color:#fef5e7
     classDef securityClass fill:#1a1a2e,stroke:#16213e,stroke-width:2px,color:#e2e8f0
     classDef testingClass fill:#0f4c75,stroke:#3282b8,stroke-width:2px,color:#e2e8f0
-    
+
     subgraph "AEGIS-SE Defense Systems Architecture"
         direction TB
-        
+
         subgraph "🛩️ Embedded Systems Layer"
             FC[Flight Control<br/>C/MISRA-C<br/>&lt;1ms Response]:::embeddedClass
             SC[Secure Communications<br/>C++/Encrypted<br/>AES-256]:::embeddedClass
             SF[Sensor Fusion<br/>C+Python<br/>&lt;10ms Processing]:::embeddedClass
         end
-        
+
         subgraph "⚡ FPGA Hardware Acceleration"
             SP[Signal Processing<br/>VHDL<br/>400 MSPS]:::fpgaClass
             CE[Crypto Engines<br/>VHDL/Verilog<br/>10+ Gbps]:::fpgaClass
             NI[Network Interfaces<br/>VHDL<br/>1Gbps+]:::fpgaClass
         end
-        
+
         subgraph "🤖 AI/ML Intelligence Layer"
             TD[Threat Detection<br/>Python/TensorFlow<br/>&gt;95% Accuracy]:::aimlClass
             PM[Predictive Maintenance<br/>Python/PyTorch<br/>ML Analytics]:::aimlClass
             MO[Mission Optimization<br/>Python/scikit-learn<br/>Tactical Planning]:::aimlClass
         end
-        
+
         subgraph "🔒 Security & Analysis Framework"
             SA[Static Analysis<br/>MISRA C, Polyspace<br/>100% Coverage]:::securityClass
             DT[Dynamic Testing<br/>Valgrind, AFL++<br/>Memory Safety]:::securityClass
             FV[Formal Verification<br/>SPARK, CBMC<br/>Mathematical Proofs]:::securityClass
         end
-        
+
         subgraph "🧪 Testing & Validation Suite"
             UT[Unit Testing<br/>100% Critical Coverage<br/>27 Tests Passing]:::testingClass
             IT[Integration Testing<br/>HIL Simulation<br/>End-to-End Validation]:::testingClass
             PT[Performance Testing<br/>Real-time Constraints<br/>Benchmark Validation]:::testingClass
         end
     end
-    
+
     %% Connections
     FC -.-> CE
     SC -.-> CE
@@ -153,10 +157,10 @@ graph LR
     classDef processClass fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#e2e8f0
     classDef outputClass fill:#2c1810,stroke:#744210,stroke-width:2px,color:#fef5e7
     classDef secureClass fill:#1a1a2e,stroke:#16213e,stroke-width:2px,color:#e2e8f0
-    
+
     subgraph "Multi-Sensor Data Flow"
         direction LR
-        
+
         subgraph "Sensor Inputs"
             RADAR[Radar Sensor<br/>360° Coverage<br/>100Hz Update]:::inputClass
             LIDAR[LIDAR Sensor<br/>Point Cloud<br/>50Hz Update]:::inputClass
@@ -164,39 +168,39 @@ graph LR
             OPTICAL[Optical Camera<br/>RGB/NIR<br/>60Hz Update]:::inputClass
             RF[RF Sensors<br/>Spectrum Analysis<br/>1kHz Update]:::inputClass
         end
-        
+
         subgraph "Processing Pipeline"
             FUSION[Sensor Fusion<br/>Kalman Filter<br/>Multi-modal Integration]:::processClass
             FPGA_PROC[FPGA Acceleration<br/>Real-time DSP<br/>Parallel Processing]:::processClass
             AI_INFERENCE[AI/ML Inference<br/>TensorFlow Lite<br/>Edge Optimization]:::processClass
         end
-        
+
         subgraph "Output Systems"
             THREAT_DB[Threat Database<br/>Real-time Updates<br/>Classification Results]:::outputClass
             FLIGHT_CTRL[Flight Control<br/>Servo Commands<br/>Safety Overrides]:::outputClass
             COMM_SYS[Communications<br/>Encrypted Channels<br/>Status Reports]:::outputClass
         end
-        
+
         subgraph "Security Layer"
             CRYPTO[Hardware Crypto<br/>AES-256 Engine<br/>Key Management]:::secureClass
             AUTH[Authentication<br/>PKI Certificates<br/>Access Control]:::secureClass
         end
     end
-    
+
     %% Data flow connections
     RADAR --> FUSION
     LIDAR --> FUSION
     THERMAL --> FUSION
     OPTICAL --> FUSION
     RF --> FUSION
-    
+
     FUSION --> FPGA_PROC
     FPGA_PROC --> AI_INFERENCE
-    
+
     AI_INFERENCE --> THREAT_DB
     AI_INFERENCE --> FLIGHT_CTRL
     AI_INFERENCE --> COMM_SYS
-    
+
     CRYPTO -.-> COMM_SYS
     AUTH -.-> THREAT_DB
 ```
@@ -277,7 +281,7 @@ mindmap
 
 - **Development Environment**: Ubuntu 22.04 LTS or compatible Linux distribution
 - **Security Clearance**: Appropriate clearance for defense contractor work
-- **Hardware Requirements**: 
+- **Hardware Requirements**:
   - 16GB RAM minimum (32GB recommended)
   - Multi-core processor (Intel i7/AMD Ryzen 7 or better)
   - FPGA development board (Xilinx Zynq UltraScale+ recommended)
@@ -285,12 +289,14 @@ mindmap
 ### Installation
 
 1. **Clone the Repository**
+
    ```bash
    git clone https://github.com/username/AEGIS-SE.git
    cd AEGIS-SE
    ```
 
 2. **Setup Development Environment**
+
    ```bash
    # Install system dependencies
    sudo apt-get update
@@ -302,6 +308,7 @@ mindmap
    ```
 
 3. **Configure Development Tools**
+
    ```bash
    # Install VS Code extensions for defense development
    code --install-extension ms-vscode.cpptools
@@ -312,17 +319,20 @@ mindmap
 ### Basic Usage
 
 1. **Build Embedded Systems**
+
    ```bash
    cd src/embedded-systems
    make all TARGET=arm-cortex-a78
    ```
 
 2. **Run Security Analysis**
+
    ```bash
    scripts/run_security_analysis.sh
    ```
 
 3. **Execute Test Suite**
+
    ```bash
    cd tests
    make all-tests
@@ -426,58 +436,58 @@ make coverage-report
 ### Advanced AI/ML Capabilities
 
 ```mermaid
-graph TD
+flowchart TD
     %% Dark theme styles for AI/ML components
     classDef sensorClass fill:#1a202c,stroke:#2d3748,stroke-width:2px,color:#e2e8f0
     classDef processClass fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#e2e8f0
     classDef aiClass fill:#2c1810,stroke:#744210,stroke-width:2px,color:#fef5e7
     classDef outputClass fill:#1a1a2e,stroke:#16213e,stroke-width:2px,color:#e2e8f0
-    
-    subgraph "AI/ML Threat Detection Pipeline"
+
+    subgraph AIML ["AI/ML Threat Detection Pipeline"]
         direction TD
-        
-        subgraph "Multi-Sensor Input Layer"
+
+        subgraph SENSORS ["Multi-Sensor Input Layer"]
             RADAR_IN[Radar Data<br/>Range/Doppler<br/>100Hz]:::sensorClass
             LIDAR_IN[LIDAR Points<br/>3D Coordinates<br/>50Hz]:::sensorClass
             THERMAL_IN[Thermal IR<br/>Temperature Map<br/>30Hz]:::sensorClass
             OPTICAL_IN[RGB Camera<br/>Visual Spectrum<br/>60Hz]:::sensorClass
             RF_IN[RF Spectrum<br/>Signal Analysis<br/>1kHz]:::sensorClass
         end
-        
-        subgraph "Feature Extraction & Fusion"
+
+        subgraph FUSION ["Feature Extraction & Fusion"]
             FEAT_EXT[Feature Extraction<br/>NumPy Processing<br/>Multi-modal Vectors]:::processClass
             KALMAN[Kalman Filtering<br/>State Estimation<br/>Noise Reduction]:::processClass
             DATA_FUSION[Data Fusion<br/>Sensor Correlation<br/>Confidence Weighting]:::processClass
         end
-        
-        subgraph "AI/ML Inference Engine"
+
+        subgraph INFERENCE ["AI/ML Inference Engine"]
             TF_LITE[TensorFlow Lite<br/>Quantized Models<br/>INT8 Optimization]:::aiClass
             ONNX_RT[ONNX Runtime<br/>Cross-platform<br/>GPU Acceleration]:::aiClass
             CLASSIFIER[Threat Classifier<br/>6 Threat Types<br/>4 Severity Levels]:::aiClass
         end
-        
-        subgraph "Decision & Output Layer"
+
+        subgraph OUTPUT ["Decision & Output Layer"]
             THREAT_ASSESS[Threat Assessment<br/>Risk Calculation<br/>Confidence Scoring]:::outputClass
             REAL_TIME[Real-time Alerts<br/>10ms Response<br/>Critical Notifications]:::outputClass
             DATABASE[Threat Database<br/>Historical Data<br/>Pattern Learning]:::outputClass
         end
     end
-    
-    %% Data flow
+
+    %% Data flow connections
     RADAR_IN --> FEAT_EXT
     LIDAR_IN --> FEAT_EXT
     THERMAL_IN --> FEAT_EXT
     OPTICAL_IN --> FEAT_EXT
     RF_IN --> FEAT_EXT
-    
+
     FEAT_EXT --> KALMAN
     KALMAN --> DATA_FUSION
-    
+
     DATA_FUSION --> TF_LITE
     DATA_FUSION --> ONNX_RT
     TF_LITE --> CLASSIFIER
     ONNX_RT --> CLASSIFIER
-    
+
     CLASSIFIER --> THREAT_ASSESS
     THREAT_ASSESS --> REAL_TIME
     THREAT_ASSESS --> DATABASE
@@ -502,17 +512,17 @@ graph LR
     classDef inputLayer fill:#1a202c,stroke:#2d3748,stroke-width:2px,color:#e2e8f0
     classDef hiddenLayer fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#e2e8f0
     classDef outputLayer fill:#2c1810,stroke:#744210,stroke-width:2px,color:#fef5e7
-    
+
     subgraph "Neural Network Architecture"
         INPUT[Input Layer<br/>Multi-sensor Features<br/>256 dimensions]:::inputLayer
-        
+
         CONV1[Conv1D Layer<br/>Temporal Features<br/>128 filters]:::hiddenLayer
         LSTM[LSTM Layer<br/>Sequence Learning<br/>64 units]:::hiddenLayer
         DENSE1[Dense Layer<br/>Feature Fusion<br/>32 neurons]:::hiddenLayer
-        
+
         OUTPUT[Output Layer<br/>Threat Classification<br/>6 classes + confidence]:::outputLayer
     end
-    
+
     INPUT --> CONV1
     CONV1 --> LSTM
     LSTM --> DENSE1
@@ -533,12 +543,14 @@ graph LR
 ### Advanced Features Implementation
 
 #### **Multi-Sensor Data Fusion Algorithm**
+
 - **Kalman Filter Integration**: Real-time state estimation with noise reduction
 - **Confidence Weighting**: Dynamic sensor reliability scoring based on environmental conditions
 - **Temporal Correlation**: Historical pattern matching for threat trajectory prediction
 - **Cross-Modal Validation**: Multi-sensor agreement verification for false positive reduction
 
 #### **Real-Time Threat Classification**
+
 - **Six Threat Categories**: AERIAL_VEHICLE, MISSILE, ELECTRONIC_WARFARE, CYBER_ATTACK, GROUND_VEHICLE, PERSONNEL
 - **Four Severity Levels**: LOW, MEDIUM, HIGH, CRITICAL (aligned with DoD threat assessment standards)
 - **Dynamic Thresholding**: Adaptive confidence levels based on operational context
@@ -683,12 +695,14 @@ The project has successfully completed the Enhanced AI/ML Threat Detection Syste
 ## 📞 Contact & Support
 
 ### Project Team
+
 - **Project Lead**: Defense Systems Engineer
-- **Security Lead**: Cybersecurity Specialist  
+- **Security Lead**: Cybersecurity Specialist
 - **FPGA Lead**: Hardware Engineer
 - **AI/ML Lead**: Data Scientist
 
 ### Documentation
+
 - **Technical Documentation**: [docs/](docs/)
 - **API Reference**: [docs/api/](docs/api/)
 - **Security Procedures**: [docs/security/](docs/security/)
@@ -709,8 +723,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Classification**: UNCLASSIFIED  
-**Distribution**: Approved for public release  
+**Classification**: UNCLASSIFIED
+**Distribution**: Approved for public release
 **Export Control**: Review required before international distribution
 
 *Built with 🛡️ for national defense and security*
