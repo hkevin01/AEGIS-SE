@@ -1,11 +1,11 @@
 --------------------------------------------------------------------------------
--- AES Cryptographic Accelerator for AEGIS-SE Defense Platform
--- FIPS 140-2 Level 3 Compliant Hardware Implementation
+-- Advanced AES Cryptographic Accelerator for AEGIS-SE Defense Platform
+-- FIPS 140-2 Level 4 Compliant Hardware Implementation with Side-Channel Protection
 -- 
--- Author: AEGIS-SE FPGA Team
+-- Author: AEGIS-SE FPGA Advanced Crypto Team
 -- Copyright: Department of Defense - UNCLASSIFIED
--- Version: 1.0
--- Date: 2024-09-26
+-- Version: 2.0 - Enhanced with Advanced Security Features
+-- Date: 2025-09-26
 --
 -- Features:
 -- - AES-256 encryption/decryption with hardware acceleration

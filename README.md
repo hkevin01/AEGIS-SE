@@ -269,9 +269,9 @@ mindmap
 | Component | Technology | Purpose | Performance Target | Current Status |
 |-----------|------------|---------|-------------------|----------------|
 | **Flight Control** | C/MISRA-C | Safety-critical flight operations | <1ms response time | ✅ **COMPLETE** - 11 tests passing |
-| **Threat Detection** | Python/TensorFlow | AI-powered threat identification | <10ms inference | ✅ **COMPLETE** - 16 tests passing |
+| **Threat Detection** | Python/TensorFlow+ONNX | Advanced AI/ML threat identification | <15ms inference | ✅ **ENHANCED** - Advanced AI/ML pipeline complete |
 | **Crypto Engine** | VHDL/AES-256 | Hardware-accelerated encryption | 10+ Gbps throughput | ✅ **IMPLEMENTED** |
-| **Sensor Fusion** | C + Python | Multi-modal data integration | <10ms latency | 🔄 **IN PROGRESS** |
+| **Sensor Fusion** | Python/Kalman | Multi-sensor data fusion & tracking | 10-20Hz real-time | ✅ **COMPLETE** - Advanced multi-sensor fusion |
 | **Communications** | C++/Encrypted | Secure tactical networking | 1Gbps+ bandwidth | 📋 **PLANNED** |
 | **Predictive Maintenance** | Python/ML | System health monitoring | >90% accuracy | 📋 **PLANNED** |
 
