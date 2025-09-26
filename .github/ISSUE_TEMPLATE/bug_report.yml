@@ -1,0 +1,123 @@
+name: 🐛 Bug Report
+description: Report a bug in AEGIS-SE defense systems
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Security Notice
+        **⚠️ DO NOT include classified, sensitive, or ITAR-controlled information in this bug report.**
+        
+        If this bug involves classified systems or data, please use secure communication channels.
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity Level
+      description: What is the severity of this bug?
+      options:
+        - Critical (Mission-critical system failure)
+        - High (Significant functionality impacted)
+        - Medium (Moderate impact on functionality)
+        - Low (Minor issue with workaround available)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: System Component
+      description: Which component is affected?
+      options:
+        - Embedded Systems - Flight Control
+        - Embedded Systems - Communications
+        - Embedded Systems - Sensor Fusion
+        - FPGA Designs - Signal Processing
+        - FPGA Designs - Cryptography
+        - FPGA Designs - Interfaces
+        - AI/ML Systems - Threat Detection
+        - AI/ML Systems - Predictive Maintenance
+        - AI/ML Systems - Optimization
+        - Security Analysis - Static Analysis
+        - Security Analysis - Dynamic Testing
+        - Security Analysis - Formal Verification
+        - Testing Framework
+        - CI/CD Pipeline
+        - Documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Provide a clear and concise description of the bug
+      placeholder: Describe what happened and what you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Provide step-by-step instructions to reproduce the bug
+      placeholder: |
+        1. Go to...
+        2. Click on...
+        3. Execute command...
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Information
+      description: Provide details about your testing environment
+      placeholder: |
+        - OS: [e.g., Ubuntu 22.04, VxWorks 7.0]
+        - Compiler: [e.g., GCC 11.4, Wind River Compiler]
+        - Hardware: [e.g., ARM Cortex-A78, x86_64]
+        - FPGA: [e.g., Xilinx Zynq UltraScale+, Intel Arria 10]
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log Output
+      description: Include relevant log output (sanitize any sensitive information)
+      render: shell
+
+  - type: dropdown
+    id: safety_impact
+    attributes:
+      label: Safety Impact Assessment
+      description: Does this bug impact safety-critical functions?
+      options:
+        - "No safety impact"
+        - "Potential safety impact - requires review"
+        - "Confirmed safety impact - immediate attention required"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: compliance
+    attributes:
+      label: Compliance Considerations
+      description: Check all that apply
+      options:
+        - label: Bug affects MISRA C compliance
+        - label: Bug affects DO-178C certification requirements
+        - label: Bug affects security clearance requirements
+        - label: Bug affects FIPS 140-2 compliance
+        - label: Bug affects real-time performance requirements
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here

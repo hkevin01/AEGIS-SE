@@ -1,0 +1,73 @@
+# AEGIS-SE Defense Systems Python Dependencies
+# Security-focused ML and embedded systems development
+
+# Core scientific computing
+numpy>=1.24.0,<2.0.0
+scipy>=1.10.0
+pandas>=2.0.0
+
+# Machine Learning & AI
+tensorflow>=2.13.0,<3.0.0
+tensorflow-lite-support>=0.4.2
+onnx>=1.14.0
+onnxruntime>=1.15.0
+openvino>=2023.1.0
+
+# Computer Vision & Signal Processing
+opencv-python>=4.8.0
+scikit-image>=0.21.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Data Analysis & Time Series
+scikit-learn>=1.3.0
+statsmodels>=0.14.0
+plotly>=5.15.0
+
+# Network & Communications
+pycrypto>=2.6.1
+cryptography>=41.0.0
+requests>=2.31.0
+websockets>=11.0.0
+
+# Testing & Quality Assurance
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-xdist>=3.3.0
+pytest-benchmark>=4.0.0
+black>=23.7.0
+flake8>=6.0.0
+mypy>=1.5.0
+bandit>=1.7.5
+
+# Documentation
+sphinx>=7.1.0
+sphinx-rtd-theme>=1.3.0
+myst-parser>=2.0.0
+
+# Development Tools
+jupyter>=1.0.0
+ipython>=8.14.0
+ipywidgets>=8.1.0
+tqdm>=4.65.0
+
+# Configuration & Logging
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+structlog>=23.1.0
+
+# Hardware Interface (for embedded development)
+pyserial>=3.5
+can>=4.2.0
+
+# Performance & Profiling
+memory-profiler>=0.61.0
+line-profiler>=4.1.0
+psutil>=5.9.0
+
+# Real-time & Embedded
+rtosc>=0.1.0  # Real-time OSC
+pyzmq>=25.1.0  # High-performance messaging
+
+# Defense-specific (if available)
+# Add defense contractor approved packages here

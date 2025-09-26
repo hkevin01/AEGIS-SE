@@ -1,0 +1,77 @@
+{
+  // Chat & Copilot - Defense Development Optimized
+  "chat.tools.autoApprove": true,
+  "chat.agent.maxRequests": 100,
+  "github.copilot.chat.alternateGptPrompt.enabled": true,
+  "chat.todoListTool.enabled": true,
+  "tools.terminal.autoApprove": true,
+  "tools.terminal.suppressPermissionPrompts": true,
+  "github.copilot.chat.enabled": true,
+  "security.workspace.trust.enabled": false,
+
+  // General Editor Settings - Defense Standards
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.rulers": [80, 120],
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 120,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit", 
+    "source.organizeImports": "explicit"
+  },
+
+  // Security & Compliance
+  "files.associations": {
+    "*.misra": "c",
+    "*.spark": "ada",
+    "*.vhdl": "vhdl",
+    "*.vhd": "vhdl"
+  },
+
+  // C/C++ - MISRA C Compliance & Defense Standards
+  "C_Cpp.default.cppStandard": "c++20",
+  "C_Cpp.default.cStandard": "c17",
+  "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, IndentWidth: 2, ColumnLimit: 80, AllowShortFunctionsOnASingleLine: None, BreakBeforeBraces: Allman }",
+  "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+  "C_Cpp.codeAnalysis.clangTidy.checks.enabled": [
+    "cert-*",
+    "misra-*", 
+    "readability-*",
+    "security-*",
+    "performance-*"
+  ],
+
+  // Python - Defense & Scientific Computing  
+  "python.analysis.typeCheckingMode": "strict",
+  "python.analysis.autoImportCompletions": true,
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.testing.pytestEnabled": true,
+  "python.languageServer": "Pylance",
+
+  // Java - Enterprise Defense Applications
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.format.settings.profile": "GoogleStyle",
+
+  // Terminal Integration
+  "terminal.integrated.shellIntegration.enabled": true,
+  "terminal.integrated.shellIntegration.decorationsEnabled": "both",
+  "terminal.integrated.suggest.enabled": true,
+  "terminal.integrated.suggest.quickSuggestions": true,
+
+  // Defense-Specific File Exclusions
+  "files.exclude": {
+    "**/.git": true,
+    "**/*.classified": true,
+    "**/*.secret": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true
+  }
+}

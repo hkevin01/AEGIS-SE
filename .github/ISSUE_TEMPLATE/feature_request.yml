@@ -1,0 +1,117 @@
+name: ✨ Feature Request
+description: Suggest a new feature for AEGIS-SE defense systems
+title: "[FEATURE] "
+labels: ["enhancement", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Security Notice
+        **⚠️ DO NOT include classified, sensitive, or ITAR-controlled information in this feature request.**
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: What is the priority of this feature?
+      options:
+        - Critical (Mission-essential capability)
+        - High (Important for operational effectiveness)
+        - Medium (Useful enhancement)
+        - Low (Nice to have)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Target Component
+      description: Which component should this feature be added to?
+      options:
+        - Embedded Systems - Flight Control
+        - Embedded Systems - Communications
+        - Embedded Systems - Sensor Fusion
+        - FPGA Designs - Signal Processing
+        - FPGA Designs - Cryptography
+        - FPGA Designs - Interfaces
+        - AI/ML Systems - Threat Detection
+        - AI/ML Systems - Predictive Maintenance
+        - AI/ML Systems - Optimization
+        - Security Analysis - Static Analysis
+        - Security Analysis - Dynamic Testing
+        - Security Analysis - Formal Verification
+        - Testing Framework
+        - CI/CD Pipeline
+        - Documentation
+        - New Component
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve?
+      placeholder: Describe the operational need or technical gap this feature addresses
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe your proposed feature implementation
+      placeholder: Provide a clear and concise description of what you want to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Describe any alternative solutions you've considered
+      placeholder: What other approaches could solve this problem?
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Implementation Complexity
+      description: What is your assessment of implementation complexity?
+      options:
+        - Low (Minor code changes)
+        - Medium (Moderate development effort)
+        - High (Significant development and testing)
+        - Very High (Major architectural changes)
+
+  - type: checkboxes
+    id: requirements
+    attributes:
+      label: Requirements Considerations
+      description: Check all that apply
+      options:
+        - label: Requires MISRA C compliance
+        - label: Requires DO-178C certification
+        - label: Requires security clearance review
+        - label: Requires FIPS 140-2 compliance
+        - label: Requires real-time performance validation
+        - label: Requires hardware-in-the-loop testing
+        - label: Requires formal verification
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Define specific, measurable criteria for completion
+      placeholder: |
+        - [ ] Feature meets performance requirements (specify metrics)
+        - [ ] Feature passes all security scans
+        - [ ] Feature includes comprehensive tests
+        - [ ] Feature is documented
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the feature request here

@@ -1,0 +1,90 @@
+# AEGIS-SE Copilot Configuration
+# Defense Systems Development Assistant
+
+project:
+  name: "AEGIS-SE"
+  type: "defense-systems"
+  classification: "unclassified" # DO NOT change without proper authorization
+  
+context:
+  domain: "defense-embedded-systems"
+  standards:
+    - "MISRA-C-2012"
+    - "DO-178C"
+    - "MIL-STD-882E"
+    - "FIPS-140-2"
+  
+  languages:
+    primary: ["c", "cpp", "ada", "vhdl", "verilog"]
+    secondary: ["python", "java", "rust"]
+    
+  frameworks:
+    rtos: ["vxworks", "freertos", "qnx"]
+    fpga: ["xilinx-vivado", "intel-quartus", "microsemi-libero"]
+    ai_ml: ["tensorflow-lite", "onnx-runtime", "openvino"]
+
+coding_style:
+  c_cpp:
+    standard: "c17/cpp20"
+    line_length: 80
+    indentation: 2
+    brace_style: "allman"
+    naming_convention: "snake_case"
+    
+  python:
+    style: "black"
+    line_length: 88
+    type_hints: true
+    
+  vhdl:
+    style: "lowercase"
+    signal_naming: "snake_case"
+    constant_naming: "UPPER_CASE"
+
+security:
+  sensitive_patterns:
+    - "password"
+    - "secret"
+    - "key"
+    - "token"
+    - "classified" 
+    - "confidential"
+    - "itar"
+    - "cui"
+  
+  excluded_suggestions:
+    - "hardcoded_credentials"
+    - "weak_crypto"
+    - "unsafe_functions"
+
+performance:
+  real_time_constraints:
+    critical: "1ms"
+    high: "10ms" 
+    medium: "100ms"
+    
+  memory_constraints:
+    embedded: "512MB"
+    fpga: "1GB"
+    
+safety:
+  criticality_levels:
+    - "DAL-A"  # Catastrophic
+    - "DAL-B"  # Hazardous
+    - "DAL-C"  # Major
+    - "DAL-D"  # Minor
+    - "DAL-E"  # No Effect
+
+suggestions:
+  prefer:
+    - "static_analysis_compliant"
+    - "memory_safe"
+    - "real_time_deterministic"
+    - "formally_verifiable"
+    - "security_hardened"
+    
+  avoid:
+    - "dynamic_allocation"
+    - "recursion_unbounded"
+    - "floating_point_critical_path"
+    - "deprecated_functions"
