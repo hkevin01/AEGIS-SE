@@ -204,6 +204,7 @@ graph LR
 ### 🔧 Technology Stack Overview
 
 ```mermaid
+%%{init: {"mindmap": {"theme": "base", "themeVariables": {"primaryColor": "#90EE90", "primaryTextColor": "#2d3748", "primaryBorderColor": "#68D391", "lineColor": "#68D391", "secondaryColor": "#F0FFF0", "tertiaryColor": "#E6FFFA", "background": "#F7FAFC", "mainBkg": "#90EE90", "secondBkg": "#C6F6D5", "tertiaryFill": "#F0FFF0"}}}}%
 mindmap
   root((AEGIS-SE<br/>Defense Platform))
     Embedded Systems
@@ -450,6 +451,7 @@ graph TB
 ### 🔐 Advanced Cryptographic Implementation
 
 #### **AES-256 Hardware Accelerator** (`aes_crypto_accelerator.vhd`)
+
 - **603 lines** of defense-grade VHDL implementation
 - **FIPS 140-2 Level 4** compliant with side-channel protection
 - **10+ Gbps sustained throughput** at 200MHz operation
@@ -462,6 +464,7 @@ graph TB
   - Temperature and voltage tamper detection
 
 #### **Hardware Security Module** (`hardware_security_module.vhd`)
+
 - **458 lines** of security-focused VHDL
 - **8 tamper detection sensors** with <10μs response time
 - **4096-bit secure key storage** with automatic zeroization
@@ -472,6 +475,7 @@ graph TB
   - Secure boot chain of trust
 
 #### **Post-Quantum Cryptography Engine** (`post_quantum_crypto.vhd`)
+
 - **561 lines** implementing NIST-standardized algorithms
 - **CRYSTALS-Kyber-1024**: Quantum-resistant key encapsulation
 - **CRYSTALS-Dilithium-5**: Post-quantum digital signatures
@@ -482,6 +486,7 @@ graph TB
 ### 📊 High-Performance Signal Processing
 
 #### **DSP Core Engine** (`dsp_core.vhd`)
+
 - **276 lines** of optimized signal processing VHDL
 - **400+ MSPS processing capability** across 16 parallel channels
 - **4096-point FFT engine** with configurable windowing
@@ -496,6 +501,7 @@ graph TB
 ### 🌐 System Integration & Control
 
 #### **AEGIS System Controller** (`aegis_system_controller.vhd`)
+
 - **Master control unit** coordinating all FPGA subsystems
 - **Resource arbitration** for shared memory and processing units
 - **Real-time task scheduling** with priority-based queuing
@@ -503,6 +509,7 @@ graph TB
 - **Interface management** for external processors and sensors
 
 #### **Network Controller** (`network_controller.vhd`)
+
 - **Gigabit Ethernet MAC** with hardware acceleration
 - **Tactical data link protocols**: Link-16, VMF, JREAP
 - **Secure communications**: Integrated encryption and authentication
@@ -512,6 +519,7 @@ graph TB
 ### 🔧 VHDL Development Standards & Best Practices
 
 #### **Coding Standards**
+
 - **VHDL-2008 compliance** with modern language features
 - **IEEE naming conventions** for defense industry compatibility
 - **Comprehensive commenting** including requirement traceability
@@ -519,6 +527,7 @@ graph TB
 - **Clock domain crossing (CDC) analysis** for multi-clock designs
 
 #### **Verification Methodology**
+
 - **Universal Verification Methodology (UVM)** testbenches
 - **Constrained random testing** with functional coverage
 - **Formal verification** using model checking techniques
@@ -526,6 +535,7 @@ graph TB
 - **Timing closure verification** at target operating frequencies
 
 #### **Security-First Design Approach**
+
 - **Side-channel attack resistance** built into all cryptographic modules
 - **Fault injection protection** with error detection and correction
 - **Secure boot implementation** with authenticated firmware updates
@@ -545,137 +555,6 @@ graph TB
 **Total FPGA Utilization**: 65% LUTs, 78% BRAMs, 45% DSP48E2 slices
 **Total Power Consumption**: 12.2W (within 15W budget)
 **Verified Operating Range**: -40°C to +85°C, Military Grade
-
-## 🛠️ VS Code VHDL Development Extensions
-
-### 🎯 **Recommended VHDL Extensions for Defense Development**
-
-For optimal VHDL development experience in VS Code, install these carefully selected extensions:
-
-```vscode-extensions
-teros-technology.teroshdl,rjyoung.vscode-modern-vhdl-support,puorc.awesome-vhdl,vinrobot.vhdl-formatter,hbohlin.vhdl-ls
-```
-
-### 🔧 **Essential VHDL Toolchain Extensions**
-
-#### **1. TerosHDL** - `teros-technology.teroshdl` ⭐⭐⭐⭐⭐
-- **Rating**: 4.8/5.0 (118k+ installations)
-- **Features**: Complete ASIC/FPGA development toolbox
-- **Key Capabilities**:
-  - State machine viewer and visualization
-  - Advanced linting with multiple HDL tools
-  - Automated documentation generation
-  - Code snippets and templates
-  - Waveform integration
-  - Project management for large designs
-
-#### **2. Modern VHDL** - `rjyoung.vscode-modern-vhdl-support` ⭐⭐⭐⭐⭐
-- **Rating**: 5.0/5.0 (96k+ installations)
-- **Features**: Comprehensive VHDL-2008 language support
-- **Key Capabilities**:
-  - Syntax highlighting for VHDL-2008 features
-  - Intelligent code completion
-  - Error detection and diagnostics
-  - Code snippets for common patterns
-  - Support for modern VHDL constructs
-
-#### **3. VHDL Language Support** - `puorc.awesome-vhdl`
-- **Rating**: 3.4/5.0 (267k+ installations)
-- **Features**: Fundamental VHDL development support
-- **Key Capabilities**:
-  - Syntax highlighting and formatting
-  - Code snippets library
-  - Basic IntelliSense support
-  - File type association
-
-#### **4. VHDL Formatter** - `vinrobot.vhdl-formatter` ⭐⭐⭐⭐⭐
-- **Rating**: 5.0/5.0 (39k+ installations)
-- **Features**: Professional code formatting
-- **Key Capabilities**:
-  - Automated code formatting
-  - Consistent indentation and alignment
-  - Configurable formatting rules
-  - Integration with VS Code format-on-save
-
-#### **5. VHDL LS** - `hbohlin.vhdl-ls` ⭐⭐⭐⭐⭐
-- **Rating**: 5.0/5.0 (19k+ installations)
-- **Features**: VHDL Language Server Protocol support
-- **Key Capabilities**:
-  - Real-time error checking
-  - Go-to-definition navigation
-  - Symbol renaming and references
-  - Hover information and documentation
-
-### 🌟 **Advanced FPGA Development Extensions**
-
-```vscode-extensions
-sterben.fpga-support,wavetrace.wavetrace,amiq.dvt,vide-software.v4pvhdlforprofessionals
-```
-
-#### **Digital IDE** - `sterben.fpga-support`
-- **Features**: All-in-one FPGA development environment
-- **Capabilities**: Vivado integration, waveform viewing, project management
-
-#### **WaveTrace** - `wavetrace.wavetrace`
-- **Features**: Interactive waveform viewer for simulation results
-- **Capabilities**: VCD/FST file support, timing analysis, debug visualization
-
-#### **DVT IDE** - `amiq.dvt`
-- **Features**: Professional verification environment
-- **Capabilities**: Advanced debugging, SystemVerilog/VHDL support, testbench integration
-
-#### **VHDL for Professionals** - `vide-software.v4pvhdlforprofessionals`
-- **Features**: Enterprise-grade VHDL-2008 support
-- **Capabilities**: Advanced language features, professional themes, sophisticated parsing
-
-### ⚙️ **Development Environment Setup**
-
-#### **Recommended VS Code Settings for VHDL** (`.vscode/settings.json`):
-
-```json
-{
-    "files.associations": {
-        "*.vhd": "vhdl",
-        "*.vhdl": "vhdl",
-        "*.vho": "vhdl"
-    },
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true,
-    "editor.wordWrap": "off",
-    "editor.rulers": [80, 120],
-    "teroshdl.linter.vhdl.enabled": true,
-    "teroshdl.documentation.vhdl.enabled": true,
-    "teroshdl.waveform.viewer": "gtkwave",
-    "vhdl.formatting.alignPort": true,
-    "vhdl.formatting.alignGeneric": true,
-    "vhdl.formatting.alignComment": true
-}
-```
-
-#### **VHDL Development Workflow Integration**:
-
-1. **Syntax Checking**: Real-time error detection with TerosHDL
-2. **Code Formatting**: Automated formatting with VHDL Formatter
-3. **Documentation**: Auto-generated docs from comments
-4. **Simulation**: Waveform viewing with WaveTrace
-5. **Version Control**: Git integration with VHDL-aware diffs
-6. **Build Integration**: Makefile support for synthesis flows
-
-### 🎯 **Defense-Specific VHDL Development Tips**
-
-#### **VHDL Coding Standards Compliance**:
-- **DO-254 Level A**: Use formal verification extensions
-- **MISRA VHDL**: Enable strict linting rules in TerosHDL
-- **FIPS 140-2**: Configure security-focused code analysis
-- **Mil-Std-498**: Document all modules with standardized headers
-
-#### **Military-Grade FPGA Development**:
-- **Temperature Monitoring**: Use simulation extensions for environmental testing
-- **Radiation Hardening**: Configure synthesis constraints for SEU mitigation
-- **Security Analysis**: Enable side-channel analysis tools
-- **Formal Verification**: Integrate with CBMC or similar tools
-
-These extensions provide a complete, professional VHDL development environment optimized for defense applications, ensuring code quality, security compliance, and efficient development workflows.
 
 ## 🧪 Testing
 
