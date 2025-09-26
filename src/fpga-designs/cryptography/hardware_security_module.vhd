@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 -- Hardware Security Module (HSM) for AEGIS-SE Defense Platform
 -- FIPS 140-2 Level 4 Compliant with Tamper Detection and Response
--- 
+--
 -- Author: AEGIS-SE FPGA Security Team
 -- Copyright: Department of Defense - UNCLASSIFIED
 -- Version: 1.0
@@ -35,11 +35,11 @@ entity hardware_security_module is
         TEMP_THRESHOLD_HIGH : integer := 85;    -- Temperature threshold (°C)
         TEMP_THRESHOLD_LOW  : integer := -40;   -- Minimum operating temperature
         VOLTAGE_TOLERANCE   : integer := 5;     -- Voltage deviation tolerance (%)
-        
+
         -- Performance Configuration
         CLOCK_FREQ_MHZ      : integer := 200;   -- Operating frequency
         RESPONSE_TIME_US    : integer := 10;    -- Tamper response time
-        
+
         -- Crypto Configuration
         HASH_WIDTH          : integer := 256;   -- SHA-256 for integrity
         NONCE_WIDTH         : integer := 128    -- Nonce size for freshness
@@ -48,40 +48,40 @@ entity hardware_security_module is
         -- Clock and Reset
         clk                 : in  STD_LOGIC;
         rst_n               : in  STD_LOGIC;
-        
+
         -- Power and Environmental Monitoring
         vcc_core            : in  STD_LOGIC_VECTOR(11 downto 0); -- Core voltage ADC
         vcc_aux             : in  STD_LOGIC_VECTOR(11 downto 0); -- Auxiliary voltage ADC
         temperature         : in  STD_LOGIC_VECTOR(11 downto 0); -- Temperature sensor
-        
+
         -- Tamper Detection Interface
         tamper_sensors      : in  STD_LOGIC_VECTOR(TAMPER_SENSORS-1 downto 0);
         mesh_integrity      : in  STD_LOGIC; -- Physical mesh circuit
         case_switch         : in  STD_LOGIC; -- Case opening detection
-        
+
         -- Secure Interface
         auth_request        : in  STD_LOGIC;
         auth_challenge      : in  STD_LOGIC_VECTOR(NONCE_WIDTH-1 downto 0);
         auth_response       : out STD_LOGIC_VECTOR(HASH_WIDTH-1 downto 0);
         auth_valid          : out STD_LOGIC;
-        
+
         -- Key Management Interface
         key_request         : in  STD_LOGIC;
         key_id              : in  STD_LOGIC_VECTOR(7 downto 0);
         key_data            : out STD_LOGIC_VECTOR(255 downto 0);
         key_valid           : out STD_LOGIC;
-        
+
         -- Secure Storage Interface
         store_request       : in  STD_LOGIC;
         store_addr          : in  STD_LOGIC_VECTOR(11 downto 0);
         store_data          : in  STD_LOGIC_VECTOR(255 downto 0);
         store_ack           : out STD_LOGIC;
-        
+
         -- Security Status Interface
         security_state      : out STD_LOGIC_VECTOR(3 downto 0);
         tamper_detected     : out STD_LOGIC;
         zeroization_complete: out STD_LOGIC;
-        
+
         -- Debug Interface (disabled in production)
         debug_enable        : in  STD_LOGIC := '0';
         debug_data          : out STD_LOGIC_VECTOR(31 downto 0)
@@ -107,36 +107,36 @@ architecture Behavioral of hardware_security_module is
     signal env_violation    : STD_LOGIC := '0';
     signal physical_tamper  : STD_LOGIC := '0';
     signal tamper_counter   : unsigned(15 downto 0) := (others => '0');
-    
+
     -- Environmental Monitoring
     signal voltage_ok       : STD_LOGIC := '0';
     signal temp_ok          : STD_LOGIC := '0';
     signal env_monitor_en   : STD_LOGIC := '1';
-    
+
     -- Key Storage (using Block RAM with encryption)
     type key_memory_type is array (0 to 255) of STD_LOGIC_VECTOR(255 downto 0);
     signal key_memory       : key_memory_type := (others => (others => '0'));
     signal key_memory_addr  : unsigned(7 downto 0);
     signal key_memory_we    : STD_LOGIC := '0';
-    
+
     -- Authentication
     signal auth_state       : unsigned(2 downto 0) := (others => '0');
     signal challenge_reg    : STD_LOGIC_VECTOR(NONCE_WIDTH-1 downto 0);
     signal response_reg     : STD_LOGIC_VECTOR(HASH_WIDTH-1 downto 0);
-    
+
     -- True Random Number Generator
     signal trng_data        : STD_LOGIC_VECTOR(31 downto 0);
     signal trng_valid       : STD_LOGIC;
-    
+
     -- Zeroization Control
     signal zero_request     : STD_LOGIC := '0';
     signal zero_progress    : unsigned(11 downto 0) := (others => '0');
     signal zero_complete    : STD_LOGIC := '0';
-    
+
     -- Side-channel Protection
     signal mask_value       : STD_LOGIC_VECTOR(255 downto 0);
     signal masked_operation : STD_LOGIC := '0';
-    
+
     -- Performance Counters
     signal operation_counter : unsigned(31 downto 0) := (others => '0');
     signal error_counter     : unsigned(15 downto 0) := (others => '0');
@@ -163,28 +163,28 @@ begin
                 else
                     next_state <= SECURE_READY;
                 end if;
-                
+
             when SECURE_READY =>
                 if tamper_event = '1' or env_violation = '1' then
                     next_state <= TAMPER_DETECTED;
                 else
                     next_state <= SECURE_READY;
                 end if;
-                
+
             when TAMPER_DETECTED =>
                 next_state <= ZEROIZING;
-                
+
             when ZEROIZING =>
                 if zero_complete = '1' then
                     next_state <= SECURITY_BREACH;
                 else
                     next_state <= ZEROIZING;
                 end if;
-                
+
             when SECURITY_BREACH =>
                 -- Permanent lockdown - requires physical reset
                 next_state <= SECURITY_BREACH;
-                
+
             when MAINTENANCE_MODE =>
                 if auth_valid = '1' then
                     next_state <= SECURE_READY;
@@ -210,7 +210,7 @@ begin
                 vcc_core_int := to_integer(unsigned(vcc_core));
                 vcc_aux_int := to_integer(unsigned(vcc_aux));
                 temp_int := to_integer(unsigned(temperature));
-                
+
                 -- Voltage monitoring (assuming 12-bit ADC, 3.3V reference)
                 -- Normal Vcore: 1.0V ± 5% = ADC range ~1200-1330
                 if vcc_core_int >= 1200 and vcc_core_int <= 1330 then
@@ -219,7 +219,7 @@ begin
                     voltage_ok <= '0';
                     env_violation <= '1';
                 end if;
-                
+
                 -- Temperature monitoring
                 -- Convert ADC to temperature (example conversion)
                 if temp_int >= 409 and temp_int <= 3482 then -- -40°C to +85°C range
@@ -241,12 +241,12 @@ begin
             tamper_counter <= (others => '0');
         elsif rising_edge(clk) then
             -- Check for any tamper sensor activation
-            if (tamper_sensors /= (tamper_sensors'range => '0')) or 
+            if (tamper_sensors /= (tamper_sensors'range => '0')) or
                (mesh_integrity = '0') or (case_switch = '1') then
                 physical_tamper <= '1';
                 tamper_counter <= tamper_counter + 1;
             end if;
-            
+
             -- Tamper event is physical tamper OR environmental violation
             tamper_event <= physical_tamper or env_violation;
         end if;
@@ -279,12 +279,12 @@ begin
                     key_memory_addr <= unsigned(store_addr(7 downto 0));
                     key_memory_we <= '1';
                     -- Store data XORed with mask for protection
-                    key_memory(to_integer(unsigned(store_addr(7 downto 0)))) <= 
+                    key_memory(to_integer(unsigned(store_addr(7 downto 0)))) <=
                         store_data xor mask_value;
                 else
                     key_memory_we <= '0';
                 end if;
-                
+
                 -- Handle key retrieval requests
                 if key_request = '1' then
                     key_memory_addr <= unsigned(key_id);
@@ -337,19 +337,19 @@ begin
                         -- Store challenge
                         challenge_reg <= auth_challenge;
                         auth_state <= auth_state + 1;
-                        
+
                     when 1 =>
                         -- Generate response (simplified HMAC-like operation)
-                        response_reg <= challenge_reg(HASH_WIDTH-1 downto 0) xor 
+                        response_reg <= challenge_reg(HASH_WIDTH-1 downto 0) xor
                                       trng_data(HASH_WIDTH-1 downto 0);
                         auth_state <= auth_state + 1;
-                        
+
                     when 2 =>
                         -- Present response
                         auth_response <= response_reg;
                         auth_valid <= '1';
                         auth_state <= (others => '0');
-                        
+
                     when others =>
                         auth_state <= (others => '0');
                 end case;
@@ -377,7 +377,7 @@ begin
     tamper_detected <= tamper_event;
     zeroization_complete <= zero_complete;
     store_ack <= store_request and key_memory_we;
-    
+
     -- Debug Interface (only active when enabled)
     debug_data <= (others => '0') when debug_enable = '0' else
                   std_logic_vector(operation_counter) when debug_enable = '1';
@@ -408,7 +408,7 @@ architecture Behavioral of true_random_generator is
     signal lfsr_reg    : STD_LOGIC_VECTOR(OUTPUT_WIDTH-1 downto 0) := (0 => '1', others => '0');
     signal sample_reg  : STD_LOGIC_VECTOR(OSC_COUNT-1 downto 0);
     signal valid_reg   : STD_LOGIC := '0';
-    
+
 begin
     -- Ring Oscillators for entropy generation
     gen_oscillators: for i in 0 to OSC_COUNT-1 generate
@@ -420,7 +420,7 @@ begin
         osc_chain(2) <= osc_chain(1);
         osc_outputs(i) <= osc_chain(2);
     end generate;
-    
+
     -- Sample and process oscillator outputs
     process(clk, rst_n)
         variable feedback : STD_LOGIC;
@@ -433,19 +433,19 @@ begin
             if enable = '1' then
                 -- Sample oscillator outputs
                 sample_reg <= osc_outputs;
-                
+
                 -- LFSR with XOR feedback from oscillators
                 feedback := sample_reg(0) xor sample_reg(1) xor sample_reg(2) xor sample_reg(3);
                 lfsr_reg <= lfsr_reg(OUTPUT_WIDTH-2 downto 0) & feedback;
-                
+
                 valid_reg <= '1';
             else
                 valid_reg <= '0';
             end if;
         end if;
     end process;
-    
+
     random_data <= lfsr_reg;
     data_valid <= valid_reg;
-    
+
 end Behavioral;

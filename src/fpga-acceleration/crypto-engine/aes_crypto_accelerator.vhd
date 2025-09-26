@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 -- Advanced AES Cryptographic Accelerator for AEGIS-SE Defense Platform
 -- FIPS 140-2 Level 4 Compliant Hardware Implementation with Side-Channel Protection
--- 
+--
 -- Author: AEGIS-SE FPGA Advanced Crypto Team
 -- Copyright: Department of Defense - UNCLASSIFIED
 -- Version: 2.0 - Enhanced with Advanced Security Features
@@ -28,11 +28,11 @@ entity aes_crypto_accelerator is
         KEY_WIDTH       : integer := 256;  -- AES-256 for maximum security
         BLOCK_WIDTH     : integer := 128;  -- Standard AES block size
         ROUNDS          : integer := 14;   -- AES-256 rounds
-        
+
         -- Performance Configuration
         PIPELINE_STAGES : integer := 4;    -- Pipeline depth for high throughput
         CLOCK_FREQ_MHZ  : integer := 200;  -- Target clock frequency
-        
+
         -- Security Configuration
         ENABLE_MASKING  : boolean := true;  -- Side-channel protection
         ENABLE_SCA_PROTECTION : boolean := true  -- Power analysis protection
@@ -41,33 +41,33 @@ entity aes_crypto_accelerator is
         -- Clock and Reset
         clk             : in  STD_LOGIC;
         rst_n           : in  STD_LOGIC;
-        
+
         -- Control Interface
         start           : in  STD_LOGIC;
         encrypt_mode    : in  STD_LOGIC; -- '1' for encrypt, '0' for decrypt
         key_valid       : in  STD_LOGIC;
         data_valid      : in  STD_LOGIC;
-        
+
         -- Data Interface
         key_in          : in  STD_LOGIC_VECTOR(KEY_WIDTH-1 downto 0);
         data_in         : in  STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
         data_out        : out STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
-        
+
         -- Status Interface
         ready           : out STD_LOGIC;
         valid_out       : out STD_LOGIC;
         error           : out STD_LOGIC;
         busy            : out STD_LOGIC;
-        
+
         -- Security Monitoring
         tamper_detect   : out STD_LOGIC;
         temp_alert      : out STD_LOGIC;
         power_alert     : out STD_LOGIC;
-        
+
         -- Performance Monitoring
         operations_count : out STD_LOGIC_VECTOR(31 downto 0);
         throughput_mbps  : out STD_LOGIC_VECTOR(15 downto 0);
-        
+
         -- Debug Interface (disabled in production)
         debug_enable    : in  STD_LOGIC;
         debug_data      : out STD_LOGIC_VECTOR(31 downto 0)
@@ -134,23 +134,23 @@ architecture Behavioral of aes_crypto_accelerator is
     signal current_round_key   : STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
     signal state_matrix        : STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
     signal next_state_matrix   : STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
-    
+
     -- Pipeline registers for high-speed operation
     signal pipeline_stage1     : STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
     signal pipeline_stage2     : STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
     signal pipeline_stage3     : STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
     signal pipeline_valid      : STD_LOGIC_VECTOR(PIPELINE_STAGES-1 downto 0);
-    
+
     -- Performance counters
     signal operation_counter   : unsigned(31 downto 0);
     signal throughput_counter  : unsigned(15 downto 0);
     signal cycle_counter       : unsigned(31 downto 0);
-    
+
     -- Security monitoring
     signal temperature_sensor  : STD_LOGIC_VECTOR(7 downto 0);
     signal power_monitor       : STD_LOGIC_VECTOR(7 downto 0);
     signal tamper_sensor       : STD_LOGIC;
-    
+
     -- Random masking for side-channel protection
     signal random_mask         : STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
     signal mask_generator      : STD_LOGIC_VECTOR(31 downto 0);
@@ -166,7 +166,7 @@ architecture Behavioral of aes_crypto_accelerator is
             keys_ready  : out STD_LOGIC
         );
     end component;
-    
+
     component aes_subbytes is
         Port (
             data_in     : in  STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
@@ -174,7 +174,7 @@ architecture Behavioral of aes_crypto_accelerator is
             data_out    : out STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0)
         );
     end component;
-    
+
     component aes_shiftrows is
         Port (
             data_in     : in  STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
@@ -182,7 +182,7 @@ architecture Behavioral of aes_crypto_accelerator is
             data_out    : out STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0)
         );
     end component;
-    
+
     component aes_mixcolumns is
         Port (
             data_in     : in  STD_LOGIC_VECTOR(BLOCK_WIDTH-1 downto 0);
@@ -246,7 +246,7 @@ begin
         elsif rising_edge(clk) then
             current_state <= next_state;
             cycle_counter <= cycle_counter + 1;
-            
+
             case current_state is
                 when IDLE =>
                     if start = '1' and data_valid = '1' and keys_ready = '1' then
@@ -254,22 +254,22 @@ begin
                         round_counter <= 0;
                         operation_counter <= operation_counter + 1;
                     end if;
-                    
+
                 when KEY_EXPANSION =>
                     -- Key expansion handled by dedicated component
                     null;
-                    
+
                 when ENCRYPT_INIT =>
                     -- Initial AddRoundKey
                     current_round_key <= key_schedule(BLOCK_WIDTH-1 downto 0);
                     state_matrix <= data_in xor key_schedule(BLOCK_WIDTH-1 downto 0);
                     round_counter <= 1;
-                    
+
                 when ENCRYPT_ROUNDS =>
                     if round_counter < ROUNDS then
                         -- Extract current round key
                         current_round_key <= key_schedule((round_counter+1)*BLOCK_WIDTH-1 downto round_counter*BLOCK_WIDTH);
-                        
+
                         -- Apply AES round transformations
                         if ENABLE_MASKING then
                             -- Apply random masking for side-channel protection
@@ -277,49 +277,49 @@ begin
                         else
                             state_matrix <= mixcolumns_out xor current_round_key;
                         end if;
-                        
+
                         round_counter <= round_counter + 1;
                     end if;
-                    
+
                 when ENCRYPT_FINAL =>
                     -- Final round (no MixColumns)
                     current_round_key <= key_schedule((ROUNDS+1)*BLOCK_WIDTH-1 downto ROUNDS*BLOCK_WIDTH);
                     state_matrix <= shiftrows_out xor current_round_key;
-                    
+
                 when DECRYPT_INIT =>
                     -- Initial AddRoundKey for decryption
                     current_round_key <= key_schedule((ROUNDS+1)*BLOCK_WIDTH-1 downto ROUNDS*BLOCK_WIDTH);
                     state_matrix <= data_in xor key_schedule((ROUNDS+1)*BLOCK_WIDTH-1 downto ROUNDS*BLOCK_WIDTH);
                     round_counter <= ROUNDS;
-                    
+
                 when DECRYPT_ROUNDS =>
                     if round_counter > 1 then
                         -- Extract current round key
                         current_round_key <= key_schedule(round_counter*BLOCK_WIDTH-1 downto (round_counter-1)*BLOCK_WIDTH);
-                        
+
                         -- Apply inverse AES round transformations
                         if ENABLE_MASKING then
                             state_matrix <= (mixcolumns_out xor current_round_key) xor random_mask;
                         else
                             state_matrix <= mixcolumns_out xor current_round_key;
                         end if;
-                        
+
                         round_counter <= round_counter - 1;
                     end if;
-                    
+
                 when DECRYPT_FINAL =>
                     -- Final round for decryption
                     current_round_key <= key_schedule(BLOCK_WIDTH-1 downto 0);
                     state_matrix <= shiftrows_out xor key_schedule(BLOCK_WIDTH-1 downto 0);
-                    
+
                 when DONE =>
                     -- Operation complete
                     null;
-                    
+
                 when ERROR_STATE =>
                     -- Error handling
                     null;
-                    
+
                 when others =>
                     current_state <= ERROR_STATE;
             end case;
@@ -340,47 +340,47 @@ begin
                 else
                     next_state <= IDLE;
                 end if;
-                
+
             when ENCRYPT_INIT =>
                 next_state <= ENCRYPT_ROUNDS;
-                
+
             when ENCRYPT_ROUNDS =>
                 if round_counter >= ROUNDS then
                     next_state <= ENCRYPT_FINAL;
                 else
                     next_state <= ENCRYPT_ROUNDS;
                 end if;
-                
+
             when ENCRYPT_FINAL =>
                 next_state <= DONE;
-                
+
             when DECRYPT_INIT =>
                 next_state <= DECRYPT_ROUNDS;
-                
+
             when DECRYPT_ROUNDS =>
                 if round_counter <= 1 then
                     next_state <= DECRYPT_FINAL;
                 else
                     next_state <= DECRYPT_ROUNDS;
                 end if;
-                
+
             when DECRYPT_FINAL =>
                 next_state <= DONE;
-                
+
             when DONE =>
                 if start = '0' then
                     next_state <= IDLE;
                 else
                     next_state <= DONE;
                 end if;
-                
+
             when ERROR_STATE =>
                 if rst_n = '0' then
                     next_state <= IDLE;
                 else
                     next_state <= ERROR_STATE;
                 end if;
-                
+
             when others =>
                 next_state <= ERROR_STATE;
         end case;
@@ -395,7 +395,7 @@ begin
         elsif rising_edge(clk) then
             -- Linear Feedback Shift Register for random number generation
             mask_generator <= mask_generator(30 downto 0) & (mask_generator(31) xor mask_generator(21) xor mask_generator(1) xor mask_generator(0));
-            
+
             -- Generate random mask from LFSR output
             if ENABLE_MASKING then
                 random_mask <= mask_generator(BLOCK_WIDTH-1 downto 0) xor mask_generator(31 downto 32-BLOCK_WIDTH);
@@ -415,10 +415,10 @@ begin
         elsif rising_edge(clk) then
             -- Temperature monitoring (simplified)
             temperature_sensor <= std_logic_vector(unsigned(temperature_sensor) + 1);
-            
+
             -- Power monitoring (simplified)
             power_monitor <= std_logic_vector(unsigned(power_monitor) + 1);
-            
+
             -- Tamper detection (simplified)
             tamper_sensor <= '0';  -- Would be connected to physical sensors
         end if;
@@ -442,16 +442,16 @@ begin
     valid_out <= '1' when current_state = DONE else '0';
     busy <= '0' when current_state = IDLE or current_state = DONE else '1';
     error <= '1' when current_state = ERROR_STATE else '0';
-    
+
     -- Security Alerts
     tamper_detect <= tamper_sensor;
     temp_alert <= '1' when unsigned(temperature_sensor) > 200 else '0';  -- Threshold
     power_alert <= '1' when unsigned(power_monitor) > 200 else '0';      -- Threshold
-    
+
     -- Performance Outputs
     operations_count <= std_logic_vector(operation_counter);
     throughput_mbps <= std_logic_vector(throughput_counter);
-    
+
     -- Debug Output (disabled in production)
     debug_data <= std_logic_vector(cycle_counter) when debug_enable = '1' else (others => '0');
 
@@ -479,7 +479,7 @@ architecture Behavioral of aes_key_expansion is
     signal expansion_complete : STD_LOGIC;
     signal round_counter : integer range 0 to 14;
 begin
-    
+
     key_expansion_proc : process(clk, rst_n)
     begin
         if rst_n = '0' then
@@ -495,7 +495,7 @@ begin
             end if;
         end if;
     end process;
-    
+
 end Behavioral;
 
 --------------------------------------------------------------------------------
@@ -515,7 +515,7 @@ end aes_subbytes;
 
 architecture Behavioral of aes_subbytes is
 begin
-    
+
     -- Simplified SubBytes transformation
     subbytes_proc : process(data_in, decrypt_mode)
     begin
@@ -529,7 +529,7 @@ begin
             end if;
         end loop;
     end process;
-    
+
 end Behavioral;
 
 --------------------------------------------------------------------------------
@@ -548,7 +548,7 @@ end aes_shiftrows;
 
 architecture Behavioral of aes_shiftrows is
 begin
-    
+
     -- Simplified ShiftRows transformation
     shiftrows_proc : process(data_in, decrypt_mode)
     begin
@@ -560,7 +560,7 @@ begin
             data_out <= data_in(31 downto 0) & data_in(127 downto 32);
         end if;
     end process;
-    
+
 end Behavioral;
 
 --------------------------------------------------------------------------------
@@ -579,7 +579,7 @@ end aes_mixcolumns;
 
 architecture Behavioral of aes_mixcolumns is
 begin
-    
+
     -- Simplified MixColumns transformation
     mixcolumns_proc : process(data_in, decrypt_mode)
     begin
@@ -591,5 +591,5 @@ begin
             data_out <= data_in xor (data_in(1 downto 0) & data_in(127 downto 2));
         end if;
     end process;
-    
+
 end Behavioral;

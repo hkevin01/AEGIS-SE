@@ -2,7 +2,7 @@
 -- Secure Key Management and Certificate Handler for AEGIS-SE Defense Platform
 -- Hardware-based Key Storage with Certificate Chain Validation
 -- FIPS 140-2 Level 4 Compliant Key Lifecycle Management
--- 
+--
 -- Author: AEGIS-SE Security Architecture Team
 -- Copyright: Department of Defense - UNCLASSIFIED
 -- Version: 1.0
@@ -34,17 +34,17 @@ entity secure_key_manager is
         MAX_KEYS               : integer := 1024;   -- Maximum number of stored keys
         KEY_STORAGE_DEPTH      : integer := 16384;  -- Total key storage memory
         MAX_CERT_CHAIN_LENGTH  : integer := 8;      -- Maximum certificate chain depth
-        
+
         -- Security Configuration
         ACCESS_LEVELS          : integer := 4;      -- Number of security clearance levels
         AUDIT_LOG_SIZE         : integer := 2048;   -- Audit log entries
         KEY_DERIVATION_ROUNDS  : integer := 100000; -- PBKDF2 iterations
-        
+
         -- Certificate Configuration
         MAX_CERT_SIZE          : integer := 4096;   -- Maximum certificate size (bytes)
         CRL_CACHE_SIZE         : integer := 512;    -- CRL cache entries
         OCSP_TIMEOUT_MS        : integer := 5000;   -- OCSP response timeout
-        
+
         -- Performance Configuration
         PARALLEL_VALIDATORS    : integer := 4;      -- Parallel certificate validators
         HASH_ENGINES           : integer := 2;      -- Parallel hash engines
@@ -54,13 +54,13 @@ entity secure_key_manager is
         -- Clock and Reset
         clk                    : in  STD_LOGIC;
         rst_n                  : in  STD_LOGIC;
-        
+
         -- Security Interface
         security_level         : in  STD_LOGIC_VECTOR(1 downto 0);
         user_credentials       : in  STD_LOGIC_VECTOR(255 downto 0);
         authentication_token   : in  STD_LOGIC_VECTOR(127 downto 0);
         access_granted         : out STD_LOGIC;
-        
+
         -- Key Management Interface
         key_operation          : in  STD_LOGIC_VECTOR(3 downto 0);
         key_id                 : in  STD_LOGIC_VECTOR(15 downto 0);
@@ -70,14 +70,14 @@ entity secure_key_manager is
         key_data_out           : out STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         key_valid              : out STD_LOGIC;
         key_operation_complete : out STD_LOGIC;
-        
+
         -- Certificate Management Interface
         cert_operation         : in  STD_LOGIC_VECTOR(2 downto 0);
         cert_data_in           : in  STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         cert_data_length       : in  STD_LOGIC_VECTOR(15 downto 0);
         cert_chain_valid       : out STD_LOGIC;
         cert_validation_status : out STD_LOGIC_VECTOR(7 downto 0);
-        
+
         -- Key Derivation Interface
         kdf_salt               : in  STD_LOGIC_VECTOR(255 downto 0);
         kdf_password           : in  STD_LOGIC_VECTOR(255 downto 0);
@@ -85,7 +85,7 @@ entity secure_key_manager is
         kdf_length             : in  STD_LOGIC_VECTOR(11 downto 0);
         kdf_derived_key        : out STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         kdf_complete           : out STD_LOGIC;
-        
+
         -- Hardware Security Module Interface
         hsm_request            : out STD_LOGIC;
         hsm_operation          : out STD_LOGIC_VECTOR(3 downto 0);
@@ -93,21 +93,21 @@ entity secure_key_manager is
         hsm_data_in            : in  STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         hsm_ready              : in  STD_LOGIC;
         hsm_valid              : in  STD_LOGIC;
-        
+
         -- Network Interface (for OCSP/CRL)
         network_request        : out STD_LOGIC;
         network_url            : out STD_LOGIC_VECTOR(1023 downto 0);
         network_response       : in  STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         network_response_valid : in  STD_LOGIC;
         network_timeout        : out STD_LOGIC;
-        
+
         -- Audit and Logging Interface
         audit_enable           : in  STD_LOGIC;
         audit_event            : out STD_LOGIC_VECTOR(31 downto 0);
         audit_timestamp        : out STD_LOGIC_VECTOR(63 downto 0);
         audit_user_id          : out STD_LOGIC_VECTOR(31 downto 0);
         audit_valid            : out STD_LOGIC;
-        
+
         -- Status and Error Reporting
         system_status          : out STD_LOGIC_VECTOR(7 downto 0);
         error_flags            : out STD_LOGIC_VECTOR(15 downto 0);
@@ -242,27 +242,27 @@ architecture Behavioral of secure_key_manager is
     signal authenticated    : STD_LOGIC := '0';
     signal current_user_level : STD_LOGIC_VECTOR(1 downto 0);
     signal operation_allowed  : STD_LOGIC;
-    
+
     -- Key Derivation Signals
     signal hkdf_start       : STD_LOGIC := '0';
     signal hkdf_output      : STD_LOGIC_VECTOR(255 downto 0);
     signal hkdf_valid       : STD_LOGIC;
-    
+
     signal pbkdf2_start     : STD_LOGIC := '0';
     signal pbkdf2_output    : STD_LOGIC_VECTOR(255 downto 0);
     signal pbkdf2_valid     : STD_LOGIC;
-    
+
     -- Certificate Validation Signals
     signal cert_validate    : STD_LOGIC := '0';
     signal cert_valid       : STD_LOGIC;
     signal cert_val_code    : STD_LOGIC_VECTOR(7 downto 0);
     signal cert_val_done    : STD_LOGIC;
-    
+
     -- Audit and Security
     signal audit_counter    : unsigned(31 downto 0) := (others => '0');
     signal security_events  : unsigned(15 downto 0) := (others => '0');
     signal timestamp_counter: unsigned(63 downto 0) := (others => '0');
-    
+
     -- Performance and Status
     signal key_count        : unsigned(15 downto 0) := (others => '0');
     signal cert_count       : unsigned(7 downto 0) := (others => '0');
@@ -426,17 +426,17 @@ begin
             kdf_complete <= '0';
             timestamp_counter <= (others => '0');
             key_count <= (others => '0');
-            
+
             -- Initialize key storage
             for i in 0 to MAX_KEYS-1 loop
                 key_storage(i).valid <= '0';
                 key_storage(i).key_data <= (others => '0');
                 key_storage(i).usage_count <= (others => '0');
             end loop;
-            
+
         elsif rising_edge(clk) then
             timestamp_counter <= timestamp_counter + 1;
-            
+
             case current_state is
                 when IDLE =>
                     key_operation_complete <= '0';
@@ -459,13 +459,13 @@ begin
                 when PROCESS_KEY_OP =>
                     if operation_allowed = '1' then
                         key_index := to_integer(unsigned(key_id));
-                        
+
                         case key_operation is
                             when OP_KEY_GENERATE =>
                                 -- Request key generation from HSM
                                 hsm_request <= '1';
                                 hsm_operation <= "0001";
-                                
+
                             when OP_KEY_STORE =>
                                 if key_index < MAX_KEYS then
                                     key_storage(key_index).key_data <= key_data_in;
@@ -474,7 +474,7 @@ begin
                                     key_storage(key_index).valid <= '1';
                                     key_count <= key_count + 1;
                                 end if;
-                                
+
                             when OP_KEY_RETRIEVE =>
                                 if key_index < MAX_KEYS and key_storage(key_index).valid = '1' then
                                     -- Check access level
@@ -484,23 +484,23 @@ begin
                                         key_storage(key_index).usage_count <= key_storage(key_index).usage_count + 1;
                                     end if;
                                 end if;
-                                
+
                             when OP_KEY_DELETE =>
                                 if key_index < MAX_KEYS then
                                     key_storage(key_index).valid <= '0';
                                     key_storage(key_index).key_data <= (others => '0');
                                     key_count <= key_count - 1;
                                 end if;
-                                
+
                             when OP_KEY_ROTATE =>
                                 -- Implement key rotation logic
                                 hsm_request <= '1';
                                 hsm_operation <= "0010";
-                                
+
                             when others =>
                                 null;
                         end case;
-                        
+
                         key_operation_complete <= '1';
                     end if;
 
@@ -512,7 +512,7 @@ begin
                             cert_chain(0).cert_length <= cert_data_length;
                             cert_chain(0).valid <= '1';
                             cert_count <= cert_count + 1;
-                            
+
                         when others =>
                             null;
                     end case;
@@ -581,7 +581,7 @@ begin
     begin
         -- Default deny
         operation_allowed <= '0';
-        
+
         -- Allow operations based on security level
         case current_user_level is
             when "11" => -- Highest clearance
@@ -603,7 +603,7 @@ begin
 
     -- Output Assignments
     access_granted <= authenticated and operation_allowed;
-    system_status <= std_logic_vector(to_unsigned(skm_state_type'pos(current_state), 4)) & 
+    system_status <= std_logic_vector(to_unsigned(skm_state_type'pos(current_state), 4)) &
                     std_logic_vector(key_count(3 downto 0));
     error_flags <= std_logic_vector(security_events);
 

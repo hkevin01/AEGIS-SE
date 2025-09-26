@@ -2,7 +2,7 @@
 -- Post-Quantum Cryptography Engine for AEGIS-SE Defense Platform
 -- Quantum-Resistant Algorithms: CRYSTALS-Kyber, CRYSTALS-Dilithium
 -- NIST Post-Quantum Cryptography Standard Implementation
--- 
+--
 -- Author: AEGIS-SE Quantum Security Team
 -- Copyright: Department of Defense - UNCLASSIFIED
 -- Version: 1.0
@@ -33,15 +33,15 @@ entity post_quantum_crypto is
         KYBER_K            : integer := 4;      -- Module rank (security level 5)
         KYBER_ETA1         : integer := 2;      -- Noise distribution parameter
         KYBER_ETA2         : integer := 2;      -- Noise distribution parameter
-        
-        -- Dilithium-5 Parameters  
+
+        -- Dilithium-5 Parameters
         DILITHIUM_N        : integer := 256;    -- Polynomial degree
         DILITHIUM_Q        : integer := 8380417; -- Modulus
         DILITHIUM_D        : integer := 13;     -- Dropped bits from t
         DILITHIUM_TAU      : integer := 60;     -- Number of ±1's in c
         DILITHIUM_L        : integer := 7;      -- Dimensions of A
         DILITHIUM_K        : integer := 8;      -- Dimensions of A
-        
+
         -- Performance Configuration
         PARALLEL_UNITS     : integer := 4;      -- Number of parallel arithmetic units
         PIPELINE_STAGES    : integer := 8;      -- Pipeline depth
@@ -51,38 +51,38 @@ entity post_quantum_crypto is
         -- Clock and Reset
         clk                : in  STD_LOGIC;
         rst_n              : in  STD_LOGIC;
-        
+
         -- Control Interface
         operation_mode     : in  STD_LOGIC_VECTOR(3 downto 0); -- Operation selector
         start_operation    : in  STD_LOGIC;
         operation_done     : out STD_LOGIC;
         operation_valid    : out STD_LOGIC;
-        
+
         -- Kyber KEM Interface
         kyber_public_key   : in  STD_LOGIC_VECTOR(1567*8-1 downto 0); -- 1568 bytes
         kyber_secret_key   : in  STD_LOGIC_VECTOR(3167*8-1 downto 0); -- 3168 bytes
         kyber_ciphertext   : in  STD_LOGIC_VECTOR(1567*8-1 downto 0); -- 1568 bytes
         kyber_shared_secret: out STD_LOGIC_VECTOR(255 downto 0);      -- 32 bytes
-        
+
         -- Dilithium Signature Interface
         dilithium_public_key : in  STD_LOGIC_VECTOR(2591*8-1 downto 0); -- 2592 bytes
         dilithium_secret_key : in  STD_LOGIC_VECTOR(4895*8-1 downto 0); -- 4896 bytes
         dilithium_message    : in  STD_LOGIC_VECTOR(1023 downto 0);     -- Variable length
         dilithium_signature  : out STD_LOGIC_VECTOR(4594*8-1 downto 0); -- 4595 bytes
         signature_valid      : out STD_LOGIC;
-        
+
         -- Random Number Interface
         random_request     : out STD_LOGIC;
         random_data        : in  STD_LOGIC_VECTOR(255 downto 0);
         random_valid       : in  STD_LOGIC;
-        
+
         -- Memory Interface (for large intermediate values)
         mem_addr           : out STD_LOGIC_VECTOR(15 downto 0);
         mem_write_data     : out STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         mem_read_data      : in  STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         mem_write_enable   : out STD_LOGIC;
         mem_read_enable    : out STD_LOGIC;
-        
+
         -- Status and Debug
         error_flags        : out STD_LOGIC_VECTOR(7 downto 0);
         performance_counter: out STD_LOGIC_VECTOR(31 downto 0);
@@ -196,7 +196,7 @@ architecture Behavioral of post_quantum_crypto is
     signal operation_counter : unsigned(31 downto 0) := (others => '0');
     signal stage_counter     : unsigned(7 downto 0) := (others => '0');
     signal poly_index        : unsigned(7 downto 0) := (others => '0');
-    
+
     -- Performance and Error Tracking
     signal cycle_counter     : unsigned(31 downto 0) := (others => '0');
     signal error_reg         : STD_LOGIC_VECTOR(7 downto 0) := (others => '0');
@@ -364,7 +364,7 @@ begin
             random_request <= '0';
         elsif rising_edge(clk) then
             cycle_counter <= cycle_counter + 1;
-            
+
             case current_state is
                 when IDLE =>
                     operation_done <= '0';
@@ -398,7 +398,7 @@ begin
                         poly_arith_op <= "001"; -- Multiply operation
                         poly_operand_a <= coefficient_buffer(to_integer(poly_index));
                         poly_operand_b <= temp_polynomial(to_integer(poly_index));
-                        
+
                         if poly_valid = '1' then
                             coefficient_buffer(to_integer(poly_index)) <= poly_result;
                             poly_index <= poly_index + 1;
@@ -421,7 +421,7 @@ begin
                         poly_arith_op <= "000"; -- Add operation
                         poly_operand_a <= coefficient_buffer(to_integer(poly_index));
                         poly_operand_b <= noise_out;
-                        
+
                         if poly_valid = '1' then
                             coefficient_buffer(to_integer(poly_index)) <= poly_result;
                             poly_index <= poly_index + 1;
@@ -434,7 +434,7 @@ begin
                         poly_arith_op <= "010"; -- Compress operation
                         poly_operand_a <= coefficient_buffer(to_integer(poly_index));
                         poly_operand_b <= std_logic_vector(to_unsigned(1024, DATA_WIDTH)); -- Compression factor
-                        
+
                         if poly_valid = '1' then
                             coefficient_buffer(to_integer(poly_index)) <= poly_result;
                             poly_index <= poly_index + 1;
@@ -459,7 +459,7 @@ begin
                         when others =>
                             null;
                     end case;
-                    
+
                     operation_valid <= '1';
                     operation_done <= '1';
 
@@ -512,7 +512,7 @@ architecture Behavioral of polynomial_arithmetic_unit is
     signal temp_result : unsigned(DATA_WIDTH downto 0);
     signal operation_reg : STD_LOGIC_VECTOR(2 downto 0);
     signal valid_reg : STD_LOGIC := '0';
-    
+
 begin
     process(clk, rst_n)
     begin
@@ -523,24 +523,24 @@ begin
         elsif rising_edge(clk) then
             operation_reg <= operation;
             valid_reg <= '1'; -- Single cycle operation
-            
+
             case operation is
                 when "000" => -- Addition
                     temp_result <= unsigned('0' & operand_a) + unsigned('0' & operand_b);
-                    
+
                 when "001" => -- Multiplication
                     temp_result <= unsigned(operand_a(15 downto 0)) * unsigned(operand_b(15 downto 0));
-                    
+
                 when "010" => -- Compression (divide by compression factor)
                     temp_result <= unsigned('0' & operand_a) / unsigned('0' & operand_b);
-                    
+
                 when "011" => -- Modular reduction
                     temp_result <= unsigned('0' & operand_a) mod MODULUS;
-                    
+
                 when others =>
                     temp_result <= (others => '0');
             end case;
-            
+
             -- Apply modular reduction if result exceeds modulus
             if temp_result >= MODULUS then
                 result <= std_logic_vector(temp_result(DATA_WIDTH-1 downto 0) mod MODULUS);
@@ -549,7 +549,7 @@ begin
             end if;
         end if;
     end process;
-    
+
     valid <= valid_reg;
-    
+
 end Behavioral;

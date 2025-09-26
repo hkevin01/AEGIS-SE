@@ -2,7 +2,7 @@
 -- High-Throughput Encryption Pipeline for AEGIS-SE Defense Platform
 -- Target Performance: 10+ Gbps Sustained Throughput
 -- Multi-Algorithm Support with Hardware Acceleration
--- 
+--
 -- Author: AEGIS-SE High-Performance Crypto Team
 -- Copyright: Department of Defense - UNCLASSIFIED
 -- Version: 1.0
@@ -35,12 +35,12 @@ entity high_throughput_pipeline is
         PIPELINE_DEPTH         : integer := 16;    -- Pipeline stages
         DATA_WIDTH             : integer := 512;   -- Wide data path (64 bytes)
         BURST_LENGTH           : integer := 16;    -- Burst transfer length
-        
+
         -- Memory Configuration
         INPUT_BUFFER_SIZE      : integer := 8192;  -- Input buffer size (bytes)
         OUTPUT_BUFFER_SIZE     : integer := 8192;  -- Output buffer size (bytes)
         DMA_ADDR_WIDTH         : integer := 32;    -- DMA address width
-        
+
         -- Crypto Configuration
         AES_KEY_WIDTH          : integer := 256;   -- AES-256
         CHACHA_KEY_WIDTH       : integer := 256;   -- ChaCha20
@@ -52,20 +52,20 @@ entity high_throughput_pipeline is
         crypto_clk             : in  STD_LOGIC; -- 400-500 MHz crypto clock
         system_clk             : in  STD_LOGIC; -- 200 MHz system clock
         rst_n                  : in  STD_LOGIC;
-        
+
         -- Configuration Interface
         algorithm_select       : in  STD_LOGIC_VECTOR(2 downto 0);
         operation_mode         : in  STD_LOGIC_VECTOR(1 downto 0); -- Encrypt/Decrypt
         enable_pipeline        : in  STD_LOGIC;
         flush_pipeline         : in  STD_LOGIC;
-        
+
         -- Key Management Interface
         aes_key                : in  STD_LOGIC_VECTOR(AES_KEY_WIDTH-1 downto 0);
         aes_iv                 : in  STD_LOGIC_VECTOR(127 downto 0);
         chacha_key             : in  STD_LOGIC_VECTOR(CHACHA_KEY_WIDTH-1 downto 0);
         chacha_nonce           : in  STD_LOGIC_VECTOR(95 downto 0);
         key_valid              : in  STD_LOGIC;
-        
+
         -- High-Speed Data Interface (AXI4-Stream like)
         -- Input Stream
         s_axis_tdata           : in  STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
@@ -74,7 +74,7 @@ entity high_throughput_pipeline is
         s_axis_tlast           : in  STD_LOGIC;
         s_axis_tkeep           : in  STD_LOGIC_VECTOR(DATA_WIDTH/8-1 downto 0);
         s_axis_tid             : in  STD_LOGIC_VECTOR(7 downto 0);
-        
+
         -- Output Stream
         m_axis_tdata           : out STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         m_axis_tvalid          : out STD_LOGIC;
@@ -82,7 +82,7 @@ entity high_throughput_pipeline is
         m_axis_tlast           : out STD_LOGIC;
         m_axis_tkeep           : out STD_LOGIC_VECTOR(DATA_WIDTH/8-1 downto 0);
         m_axis_tid             : out STD_LOGIC_VECTOR(7 downto 0);
-        
+
         -- DMA Interface for Zero-Copy Operations
         dma_read_addr          : out STD_LOGIC_VECTOR(DMA_ADDR_WIDTH-1 downto 0);
         dma_read_len           : out STD_LOGIC_VECTOR(15 downto 0);
@@ -90,20 +90,20 @@ entity high_throughput_pipeline is
         dma_read_data          : in  STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         dma_read_valid         : in  STD_LOGIC;
         dma_read_ready         : out STD_LOGIC;
-        
+
         dma_write_addr         : out STD_LOGIC_VECTOR(DMA_ADDR_WIDTH-1 downto 0);
         dma_write_len          : out STD_LOGIC_VECTOR(15 downto 0);
         dma_write_req          : out STD_LOGIC;
         dma_write_data         : out STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         dma_write_valid        : out STD_LOGIC;
         dma_write_ready        : in  STD_LOGIC;
-        
+
         -- Performance Monitoring
         throughput_mbps        : out STD_LOGIC_VECTOR(31 downto 0);
         latency_cycles         : out STD_LOGIC_VECTOR(15 downto 0);
         pipeline_utilization   : out STD_LOGIC_VECTOR(7 downto 0);
         error_count            : out STD_LOGIC_VECTOR(15 downto 0);
-        
+
         -- Status and Control
         pipeline_ready         : out STD_LOGIC;
         pipeline_busy          : out STD_LOGIC;
@@ -119,7 +119,7 @@ architecture Behavioral of high_throughput_pipeline is
     constant ALG_AES_CTR       : STD_LOGIC_VECTOR(2 downto 0) := "001";
     constant ALG_CHACHA20_POLY : STD_LOGIC_VECTOR(2 downto 0) := "010";
     constant ALG_AES_XTS       : STD_LOGIC_VECTOR(2 downto 0) := "011";
-    
+
     -- Pipeline Stage Types
     type pipeline_stage_type is record
         data        : STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
@@ -129,7 +129,7 @@ architecture Behavioral of high_throughput_pipeline is
         id          : STD_LOGIC_VECTOR(7 downto 0);
         stage_id    : unsigned(4 downto 0);
     end record;
-    
+
     type pipeline_array_type is array (0 to PIPELINE_DEPTH-1) of pipeline_stage_type;
     signal pipeline_stages : pipeline_array_type;
 
@@ -190,7 +190,7 @@ architecture Behavioral of high_throughput_pipeline is
     -- Signal Declarations
     type aes_data_array is array (0 to PARALLEL_ENGINES-1) of STD_LOGIC_VECTOR(127 downto 0);
     type aes_valid_array is array (0 to PARALLEL_ENGINES-1) of STD_LOGIC;
-    
+
     signal aes_data_in      : aes_data_array;
     signal aes_data_out     : aes_data_array;
     signal aes_valid_in     : aes_valid_array;
@@ -207,18 +207,18 @@ architecture Behavioral of high_throughput_pipeline is
     signal pipeline_enable  : STD_LOGIC;
     signal stage_enable     : STD_LOGIC_VECTOR(PIPELINE_DEPTH-1 downto 0);
     signal stage_valid      : STD_LOGIC_VECTOR(PIPELINE_DEPTH-1 downto 0);
-    
+
     -- Flow Control
     signal input_ready      : STD_LOGIC;
     signal output_valid     : STD_LOGIC;
     signal backpressure     : STD_LOGIC;
-    
+
     -- Performance Counters
     signal cycle_counter    : unsigned(31 downto 0) := (others => '0');
     signal data_counter     : unsigned(31 downto 0) := (others => '0');
     signal latency_start    : unsigned(15 downto 0);
     signal latency_end      : unsigned(15 downto 0);
-    
+
     -- Buffer Management
     signal input_buffer_full  : STD_LOGIC;
     signal output_buffer_full : STD_LOGIC;
@@ -298,10 +298,10 @@ begin
                 pipeline_stages(i).stage_id <= to_unsigned(i, 5);
             end loop;
             chacha_counter <= (others => '0');
-            
+
         elsif rising_edge(crypto_clk) then
             if enable_pipeline = '1' and flush_pipeline = '0' then
-                
+
                 -- Pipeline Stage 0: Input Buffer and Distribution
                 if s_axis_tvalid = '1' and input_ready = '1' then
                     pipeline_stages(0).data <= s_axis_tdata;
@@ -309,7 +309,7 @@ begin
                     pipeline_stages(0).last <= s_axis_tlast;
                     pipeline_stages(0).keep <= s_axis_tkeep;
                     pipeline_stages(0).id <= s_axis_tid;
-                    
+
                     -- Distribute data to parallel engines based on algorithm
                     case algorithm_select is
                         when ALG_AES_GCM | ALG_AES_CTR | ALG_AES_XTS =>
@@ -320,12 +320,12 @@ begin
                                     aes_valid_in(i) <= s_axis_tvalid;
                                 end if;
                             end loop;
-                            
+
                         when ALG_CHACHA20_POLY =>
                             chacha_data_in <= s_axis_tdata;
                             chacha_valid_in <= s_axis_tvalid;
                             chacha_counter <= chacha_counter + 1;
-                            
+
                         when others =>
                             -- Default to AES
                             aes_data_in(0) <= s_axis_tdata(127 downto 0);
@@ -344,7 +344,7 @@ begin
                 for stage in 9 to 12 loop
                     if stage_enable(stage) = '1' then
                         pipeline_stages(stage) <= pipeline_stages(stage-1);
-                        
+
                         -- Collect results from parallel engines
                         if stage = 9 then
                             case algorithm_select is
@@ -355,12 +355,12 @@ begin
                                             pipeline_stages(stage).data(128*(i+1)-1 downto 128*i) <= aes_data_out(i);
                                         end if;
                                     end loop;
-                                    
+
                                 when ALG_CHACHA20_POLY =>
                                     if chacha_valid_out = '1' then
                                         pipeline_stages(stage).data <= chacha_data_out;
                                     end if;
-                                    
+
                                 when others =>
                                     pipeline_stages(stage).data <= pipeline_stages(stage-1).data;
                             end case;
@@ -391,18 +391,18 @@ begin
             input_ready <= '0';
             output_valid <= '0';
             backpressure <= '0';
-            
+
         elsif rising_edge(crypto_clk) then
             -- Input ready when pipeline is not full and not flushing
-            input_ready <= enable_pipeline and not flush_pipeline and 
+            input_ready <= enable_pipeline and not flush_pipeline and
                           not input_buffer_full and not backpressure;
-            
+
             -- Output valid when final stage has valid data
             output_valid <= pipeline_stages(PIPELINE_DEPTH-1).valid;
-            
+
             -- Backpressure when output is not ready
             backpressure <= output_valid and not m_axis_tready;
-            
+
             -- Stage enable logic with backpressure propagation
             for i in 0 to PIPELINE_DEPTH-1 loop
                 if i = PIPELINE_DEPTH-1 then
@@ -421,15 +421,15 @@ begin
         if rst_n = '0' then
             cycle_counter <= (others => '0');
             data_counter <= (others => '0');
-            
+
         elsif rising_edge(system_clk) then
             cycle_counter <= cycle_counter + 1;
-            
+
             -- Count valid data transfers
             if m_axis_tvalid = '1' and m_axis_tready = '1' then
                 data_counter <= data_counter + 1;
             end if;
-            
+
             -- Calculate pipeline utilization (percentage of stages active)
             pipeline_utilization <= std_logic_vector(to_unsigned(
                 (to_integer(unsigned'(stage_valid)) * 100) / PIPELINE_DEPTH, 8));
@@ -445,7 +445,7 @@ begin
             m_axis_tlast <= '0';
             m_axis_tkeep <= (others => '0');
             m_axis_tid <= (others => '0');
-            
+
         elsif rising_edge(crypto_clk) then
             -- Output from final pipeline stage
             m_axis_tdata <= pipeline_stages(PIPELINE_DEPTH-1).data;
@@ -499,7 +499,7 @@ architecture Behavioral of aes_gcm_engine is
     signal aes_output : STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
     signal gcm_tag    : STD_LOGIC_VECTOR(127 downto 0);
     signal valid_reg  : STD_LOGIC := '0';
-    
+
 begin
     process(clk, rst_n)
     begin
@@ -519,9 +519,9 @@ begin
             end if;
         end if;
     end process;
-    
+
     data_out <= aes_output;
     tag_out <= gcm_tag;
     valid_out <= valid_reg;
-    
+
 end Behavioral;

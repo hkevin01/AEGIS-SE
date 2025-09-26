@@ -2,7 +2,7 @@
 -- Comprehensive Cryptographic Modules Testbench for AEGIS-SE Defense Platform
 -- Validates All Phase 10 Advanced Cryptographic Components
 -- Performance and Security Testing Suite
--- 
+--
 -- Author: AEGIS-SE Verification Team
 -- Copyright: Department of Defense - UNCLASSIFIED
 -- Version: 1.0
@@ -42,7 +42,7 @@ architecture Behavioral of crypto_comprehensive_tb is
     signal crypto_clk           : STD_LOGIC := '0';
     signal system_clk           : STD_LOGIC := '0';
     signal rst_n                : STD_LOGIC := '0';
-    
+
     -- Test Control Signals
     signal test_complete        : STD_LOGIC := '0';
     signal test_pass            : STD_LOGIC := '0';
@@ -426,33 +426,33 @@ begin
         variable test_start   : time;
         variable test_end     : time;
         variable line_out     : line;
-        
+
         -- Test procedure for AES functionality
         procedure test_aes_basic is
         begin
             report "Starting AES Basic Functionality Test";
             current_test <= 1;
-            
+
             -- Setup test key and IV
             aes_key <= x"603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4";
             aes_iv  <= x"000102030405060708090a0b0c0d0e0f";
             aes_enable <= '1';
             aes_encrypt <= '1';
             aes_mode <= "000"; -- AES-256-CBC
-            
+
             wait for 10 ns;
-            
+
             -- Test encryption of multiple blocks
             for i in 0 to 7 loop
                 aes_data_in <= AES_TEST_VECTORS(i);
                 aes_valid_in <= '1';
                 wait until rising_edge(crypto_clk);
                 aes_valid_in <= '0';
-                
+
                 -- Wait for output
                 wait until aes_valid_out = '1';
                 wait for 5 ns;
-                
+
                 -- Basic validation (output should be different from input)
                 if aes_data_out = aes_data_in then
                     report "ERROR: AES output equals input for test vector " & integer'image(i);
@@ -461,7 +461,7 @@ begin
                     report "AES encryption test " & integer'image(i) & " passed";
                 end if;
             end loop;
-            
+
             aes_enable <= '0';
             report "AES Basic Functionality Test Complete";
         end procedure;
@@ -471,28 +471,28 @@ begin
         begin
             report "Starting HSM Security Test";
             current_test <= 2;
-            
+
             -- Test normal operation
             hsm_tamper_sensors <= (others => '0');
             hsm_temperature <= x"800"; -- Normal temperature
             hsm_vcc_core <= x"555";    -- Normal voltage
             hsm_mesh_integrity <= '1';
             hsm_case_switch <= '0';
-            
+
             wait for 100 ns;
-            
+
             -- Check security state
             if hsm_security_state /= "0001" then -- Should be in SECURE_READY
                 report "ERROR: HSM not in secure ready state";
                 error_count <= error_count + 1;
             end if;
-            
+
             -- Test authentication
             hsm_auth_challenge <= x"0123456789abcdef0123456789abcdef";
             hsm_auth_request <= '1';
             wait until rising_edge(system_clk);
             hsm_auth_request <= '0';
-            
+
             wait until hsm_auth_valid = '1';
             if hsm_auth_response = (hsm_auth_response'range => '0') then
                 report "ERROR: HSM authentication response is zero";
@@ -500,22 +500,22 @@ begin
             else
                 report "HSM authentication test passed";
             end if;
-            
+
             -- Test tamper detection
             hsm_tamper_sensors(0) <= '1'; -- Trigger tamper
             wait for 50 ns;
-            
+
             if hsm_tamper_detected /= '1' then
                 report "ERROR: HSM tamper detection failed";
                 error_count <= error_count + 1;
             else
                 report "HSM tamper detection test passed";
             end if;
-            
+
             -- Reset tamper
             hsm_tamper_sensors <= (others => '0');
             wait for 100 ns;
-            
+
             report "HSM Security Test Complete";
         end procedure;
 
@@ -524,47 +524,47 @@ begin
         begin
             report "Starting Post-Quantum Cryptography Test";
             current_test <= 3;
-            
+
             -- Setup test keys (simplified)
             pqc_kyber_public_key <= (others => '1');
             pqc_kyber_secret_key <= (others => '0');
-            
+
             -- Provide random data
             pqc_random_data <= x"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
             pqc_random_valid <= '1';
-            
+
             -- Test Kyber key generation
             pqc_operation_mode <= "0001"; -- OP_KYBER_KEYGEN
             pqc_start_operation <= '1';
             wait until rising_edge(crypto_clk);
             pqc_start_operation <= '0';
-            
+
             wait until pqc_operation_done = '1' or now > test_start + 10 us;
-            
+
             if pqc_operation_done = '1' and pqc_operation_valid = '1' then
                 report "Post-quantum key generation test passed";
             else
                 report "ERROR: Post-quantum key generation failed";
                 error_count <= error_count + 1;
             end if;
-            
+
             wait for 100 ns;
-            
+
             -- Test Kyber decryption
             pqc_operation_mode <= "0011"; -- OP_KYBER_DECRYPT
             pqc_start_operation <= '1';
             wait until rising_edge(crypto_clk);
             pqc_start_operation <= '0';
-            
+
             wait until pqc_operation_done = '1' or now > test_start + 20 us;
-            
+
             if pqc_operation_done = '1' and pqc_operation_valid = '1' then
                 report "Post-quantum decryption test passed";
             else
                 report "ERROR: Post-quantum decryption failed";
                 error_count <= error_count + 1;
             end if;
-            
+
             pqc_random_valid <= '0';
             report "Post-Quantum Cryptography Test Complete";
         end procedure;
@@ -574,17 +574,17 @@ begin
         begin
             report "Starting High-Throughput Pipeline Test";
             current_test <= 4;
-            
+
             pipeline_enable <= '1';
             pipeline_algorithm <= "000"; -- AES-GCM
             pipeline_operation <= "01";  -- Encrypt
             pipeline_m_tready <= '1';
-            
+
             wait until pipeline_ready = '1';
-            
+
             throughput_start_time <= now;
             throughput_data_count <= 0;
-            
+
             -- Send continuous data stream for throughput test
             for i in 0 to 999 loop
                 pipeline_s_tdata <= std_logic_vector(to_unsigned(i, DATA_WIDTH));
@@ -592,33 +592,33 @@ begin
                 if i = 999 then
                     pipeline_s_tlast <= '1';
                 end if;
-                
+
                 wait until rising_edge(crypto_clk) and pipeline_s_tready = '1';
-                
+
                 if pipeline_m_tvalid = '1' then
                     throughput_data_count <= throughput_data_count + 1;
                 end if;
             end loop;
-            
+
             pipeline_s_tvalid <= '0';
             pipeline_s_tlast <= '0';
-            
+
             -- Wait for pipeline to complete
             wait until pipeline_busy = '0';
-            
+
             -- Calculate throughput
-            measured_throughput <= real(throughput_data_count * DATA_WIDTH) / 
+            measured_throughput <= real(throughput_data_count * DATA_WIDTH) /
                                  real((now - throughput_start_time) / 1 ns) * 1000.0;
-            
+
             if measured_throughput >= real(PERFORMANCE_TARGET) then
-                report "High-throughput pipeline test passed: " & 
+                report "High-throughput pipeline test passed: " &
                        real'image(measured_throughput) & " Mbps";
             else
-                report "ERROR: Throughput below target: " & 
+                report "ERROR: Throughput below target: " &
                        real'image(measured_throughput) & " Mbps";
                 error_count <= error_count + 1;
             end if;
-            
+
             pipeline_enable <= '0';
             report "High-Throughput Pipeline Test Complete";
         end procedure;
@@ -628,49 +628,49 @@ begin
         begin
             report "Starting Key Manager Test";
             current_test <= 5;
-            
+
             -- Setup authentication
             km_user_credentials <= x"deadbeefcafeba00deadbeefcafeba00deadbeefcafeba00deadbeefcafeba00";
             km_auth_token <= x"deadbeefcafeba00deadbeefcafeba00";
-            
+
             wait for 100 ns;
-            
+
             -- Test key storage
             km_key_operation <= "0010"; -- OP_KEY_STORE
             km_key_id <= x"0001";
             km_key_data_in <= x"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
-            
+
             wait until rising_edge(system_clk);
             km_key_operation <= "0000";
-            
+
             wait until km_operation_complete = '1';
-            
+
             if km_access_granted = '1' then
                 report "Key storage authentication passed";
             else
                 report "ERROR: Key storage authentication failed";
                 error_count <= error_count + 1;
             end if;
-            
+
             wait for 50 ns;
-            
+
             -- Test key retrieval
             km_key_operation <= "0011"; -- OP_KEY_RETRIEVE
             km_key_id <= x"0001";
-            
+
             wait until rising_edge(system_clk);
             km_key_operation <= "0000";
-            
+
             wait until km_operation_complete = '1';
-            
-            if km_key_valid = '1' and 
+
+            if km_key_valid = '1' and
                km_key_data_out = x"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef" then
                 report "Key retrieval test passed";
             else
                 report "ERROR: Key retrieval failed";
                 error_count <= error_count + 1;
             end if;
-            
+
             report "Key Manager Test Complete";
         end procedure;
 
@@ -678,32 +678,32 @@ begin
         -- Wait for reset
         wait until rst_n = '1';
         wait for 100 ns;
-        
+
         test_start := now;
-        
+
         -- Run all tests
         test_aes_basic;
         wait for 1 us;
-        
+
         test_hsm_security;
         wait for 1 us;
-        
+
         test_post_quantum;
         wait for 5 us;
-        
+
         test_high_throughput;
         wait for 2 us;
-        
+
         test_key_manager;
         wait for 1 us;
-        
+
         test_end := now;
-        
+
         -- Final Results
         report "=== AEGIS-SE Phase 10 Cryptographic Modules Test Results ===";
         report "Total test time: " & time'image(test_end - test_start);
         report "Total errors: " & integer'image(error_count);
-        
+
         if error_count = 0 then
             report "*** ALL TESTS PASSED ***";
             test_pass <= '1';
@@ -711,7 +711,7 @@ begin
             report "*** SOME TESTS FAILED ***";
             test_pass <= '0';
         end if;
-        
+
         test_complete <= '1';
         wait;
     end process;
@@ -736,8 +736,8 @@ begin
         if rising_edge(crypto_clk) then
             if pqc_random_request = '1' then
                 -- Simple LFSR-based random number generation
-                pqc_random_data <= pqc_random_data(254 downto 0) & 
-                                  (pqc_random_data(255) xor pqc_random_data(253) xor 
+                pqc_random_data <= pqc_random_data(254 downto 0) &
+                                  (pqc_random_data(255) xor pqc_random_data(253) xor
                                    pqc_random_data(251) xor pqc_random_data(248));
                 pqc_random_valid <= '1';
             else
