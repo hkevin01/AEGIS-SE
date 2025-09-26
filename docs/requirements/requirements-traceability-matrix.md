@@ -1,10 +1,10 @@
 # Requirements Traceability Matrix (RTM)
 ## AEGIS-SE Defense Platform
 
-**Document ID**: RTM-AEGIS-SE-001  
-**Version**: 1.0  
-**Date**: September 26, 2025  
-**Classification**: UNCLASSIFIED  
+**Document ID**: RTM-AEGIS-SE-001
+**Version**: 1.0
+**Date**: September 26, 2025
+**Classification**: UNCLASSIFIED
 
 ---
 
@@ -190,7 +190,7 @@ The RTM tracks relationships between:
 
 ---
 
-**Document Status**: CURRENT  
-**Next Review Date**: October 26, 2025  
-**Prepared by**: AEGIS-SE Development Team  
+**Document Status**: CURRENT
+**Next Review Date**: October 26, 2025
+**Prepared by**: AEGIS-SE Development Team
 **Approved by**: [TBD]

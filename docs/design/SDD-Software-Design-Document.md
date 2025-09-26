@@ -1,12 +1,12 @@
 # Software Design Document (SDD)
 ## AEGIS-SE Defense Platform
 
-**Document ID**: SDD-AEGIS-SE-001  
-**Version**: 1.0  
-**Date**: September 26, 2025  
-**Classification**: UNCLASSIFIED  
-**Prepared for**: Department of Defense  
-**Prepared by**: AEGIS-SE Development Team  
+**Document ID**: SDD-AEGIS-SE-001
+**Version**: 1.0
+**Date**: September 26, 2025
+**Classification**: UNCLASSIFIED
+**Prepared for**: Department of Defense
+**Prepared by**: AEGIS-SE Development Team
 
 ---
 
@@ -99,39 +99,39 @@ graph TB
         UI[Command Interface]
         MON[System Monitor]
     end
-    
+
     subgraph "Application Services Layer"
         CMD[Command Handler]
         CFG[Configuration Manager]
         LOG[Logging Service]
     end
-    
+
     subgraph "AI/ML Processing Layer"
         THR[Threat Analyzer]
         FUS[Sensor Fusion]
         INF[Inference Engines]
         FEX[Feature Extractor]
     end
-    
+
     subgraph "Control Systems Layer"
         FCS[Flight Control System]
         NAV[Navigation System]
         GNC[Guidance & Control]
     end
-    
+
     subgraph "Hardware Abstraction Layer"
         HAL[Hardware Abstraction]
         DRV[Device Drivers]
         INT[Interrupt Handlers]
     end
-    
+
     subgraph "FPGA Acceleration Layer"
         DSP[DSP Core]
         CRY[Crypto Engine]
         NET[Network Controller]
         SEN[Sensor Interfaces]
     end
-    
+
     UI --> CMD
     MON --> LOG
     CMD --> THR
@@ -163,19 +163,19 @@ graph LR
         MC[Flight Control<br/>C/C++]
         AI[AI/ML Engine<br/>Python]
     end
-    
+
     subgraph "FPGA Card"
         FPGA[Hardware Acceleration<br/>VHDL]
         HSM[Security Module<br/>VHDL]
     end
-    
+
     subgraph "Sensor Suite"
         RAD[Radar]
         OPT[Optical]
         THM[Thermal]
         RF[RF Sensors]
     end
-    
+
     MC ---|PCIe| FPGA
     FPGA ---|High-Speed| HSM
     FPGA ---|Ethernet/Serial| RAD
@@ -245,13 +245,13 @@ FlightControlResult shutdown_flight_control(FlightControlSystem* fcs);
 ```python
 class ThreatAnalyzer:
     """Main threat detection and analysis engine"""
-    
+
     def __init__(self, config_path: str):
         self.config = self._load_config(config_path)
         self.inference_engines = self._initialize_engines()
         self.feature_extractor = FeatureExtractor()
         self.threat_buffer = ThreatBuffer(max_size=1000)
-        
+
     def analyze_threats(self, sensor_data: Dict) -> List[ThreatDetection]:
         """Main threat analysis pipeline"""
         # REQ-F-003: Multi-sensor threat detection
@@ -285,11 +285,11 @@ graph LR
 ```python
 class SensorFusion:
     """Multi-sensor data fusion using Kalman filtering"""
-    
+
     def __init__(self):
         self.trackers = {}  # Track ID -> KalmanFilter
         self.sensor_configs = self._load_sensor_configs()
-        
+
     def process_sensor_data(self, sensor_id: str, detections: List) -> List[Track]:
         """REQ-F-004: Sensor data fusion"""
         # Kalman filter prediction and update
@@ -319,12 +319,12 @@ entity hardware_security_module is
         -- Control Interface
         clk                 : in  STD_LOGIC;
         rst_n               : in  STD_LOGIC;
-        
+
         -- Security Interface
         tamper_sensors      : in  STD_LOGIC_VECTOR(TAMPER_SENSORS-1 downto 0);
         security_state      : out STD_LOGIC_VECTOR(3 downto 0);
         tamper_detected     : out STD_LOGIC;
-        
+
         -- Key Management Interface
         key_request         : in  STD_LOGIC;
         key_data            : out STD_LOGIC_VECTOR(255 downto 0);
@@ -371,11 +371,11 @@ class SensorDataPacket:
 ```python
 class C4ISRInterface:
     """Interface to Command, Control, Communications systems"""
-    
+
     def send_tactical_data(self, link16_message: Link16Message):
         """REQ-I-001: C4ISR Integration"""
         # Implement Link 16 tactical data link protocol
-        
+
     def receive_orders(self) -> CommandMessage:
         """Receive mission orders from higher command"""
         # Implement command reception protocol
@@ -417,11 +417,11 @@ typedef struct {
     Vector3D velocity;          // m/s (NED frame)
     Quaternion attitude;        // unit quaternion
     Vector3D angular_velocity;  // rad/s (body frame)
-    
+
     // Control inputs
     ControlSurfaceCommands control_surfaces;
     ThrustCommands thrust_commands;
-    
+
     // Safety status
     FlightEnvelopeStatus envelope_status;
     SystemHealthStatus system_health;
@@ -496,7 +496,7 @@ graph TD
     KEK --> DEK1[Data Encryption Key 1<br/>Mission Data]
     KEK --> DEK2[Data Encryption Key 2<br/>Communications]
     KEK --> DEK3[Data Encryption Key 3<br/>Storage]
-    
+
     MK --> PQK[Post-Quantum Key<br/>Future Protection]
     PQK --> PQDK1[PQ Data Key 1]
     PQK --> PQDK2[PQ Data Key 2]
