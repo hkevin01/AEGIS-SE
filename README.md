@@ -98,48 +98,38 @@ AEGIS-SE serves as a **comprehensive technology demonstrator** for next-generati
 
 ```mermaid
 graph TB
-    %% Define dark theme styles
-    classDef embeddedClass fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#e2e8f0
-    classDef fpgaClass fill:#1a202c,stroke:#2d3748,stroke-width:2px,color:#e2e8f0
-    classDef aimlClass fill:#2c1810,stroke:#744210,stroke-width:2px,color:#fef5e7
-    classDef securityClass fill:#1a1a2e,stroke:#16213e,stroke-width:2px,color:#e2e8f0
-    classDef testingClass fill:#0f4c75,stroke:#3282b8,stroke-width:2px,color:#e2e8f0
-
     subgraph "AEGIS-SE Defense Systems Architecture"
-        direction TB
-
         subgraph "🛩️ Embedded Systems Layer"
-            FC[Flight Control<br/>C/MISRA-C<br/>&lt;1ms Response]:::embeddedClass
-            SC[Secure Communications<br/>C++/Encrypted<br/>AES-256]:::embeddedClass
-            SF[Sensor Fusion<br/>C+Python<br/>&lt;10ms Processing]:::embeddedClass
+            FC["Flight Control<br/>C/MISRA-C<br/><1ms Response"]
+            SC["Secure Communications<br/>C++/Encrypted<br/>AES-256"]
+            SF["Sensor Fusion<br/>C+Python<br/><10ms Processing"]
         end
 
         subgraph "⚡ FPGA Hardware Acceleration"
-            SP[Signal Processing<br/>VHDL<br/>400 MSPS]:::fpgaClass
-            CE[Crypto Engines<br/>VHDL/Verilog<br/>10+ Gbps]:::fpgaClass
-            NI[Network Interfaces<br/>VHDL<br/>1Gbps+]:::fpgaClass
+            SP["Signal Processing<br/>VHDL<br/>400 MSPS"]
+            CE["Crypto Engines<br/>VHDL/Verilog<br/>10+ Gbps"]
+            NI["Network Interfaces<br/>VHDL<br/>1Gbps+"]
         end
 
         subgraph "🤖 AI/ML Intelligence Layer"
-            TD[Threat Detection<br/>Python/TensorFlow<br/>&gt;95% Accuracy]:::aimlClass
-            PM[Predictive Maintenance<br/>Python/PyTorch<br/>ML Analytics]:::aimlClass
-            MO[Mission Optimization<br/>Python/scikit-learn<br/>Tactical Planning]:::aimlClass
+            TD["Threat Detection<br/>Python/TensorFlow<br/>>95% Accuracy"]
+            PM["Predictive Maintenance<br/>Python/PyTorch<br/>ML Analytics"]
+            MO["Mission Optimization<br/>Python/scikit-learn<br/>Tactical Planning"]
         end
 
         subgraph "🔒 Security & Analysis Framework"
-            SA[Static Analysis<br/>MISRA C, Polyspace<br/>100% Coverage]:::securityClass
-            DT[Dynamic Testing<br/>Valgrind, AFL++<br/>Memory Safety]:::securityClass
-            FV[Formal Verification<br/>SPARK, CBMC<br/>Mathematical Proofs]:::securityClass
+            SA["Static Analysis<br/>MISRA C, Polyspace<br/>100% Coverage"]
+            DT["Dynamic Testing<br/>Valgrind, AFL++<br/>Memory Safety"]
+            FV["Formal Verification<br/>SPARK, CBMC<br/>Mathematical Proofs"]
         end
 
         subgraph "🧪 Testing & Validation Suite"
-            UT[Unit Testing<br/>100% Critical Coverage<br/>27 Tests Passing]:::testingClass
-            IT[Integration Testing<br/>HIL Simulation<br/>End-to-End Validation]:::testingClass
-            PT[Performance Testing<br/>Real-time Constraints<br/>Benchmark Validation]:::testingClass
+            UT["Unit Testing<br/>100% Critical Coverage<br/>27 Tests Passing"]
+            IT["Integration Testing<br/>HIL Simulation<br/>End-to-End Validation"]
+            PT["Performance Testing<br/>Real-time Constraints<br/>Benchmark Validation"]
         end
     end
 
-    %% Connections
     FC -.-> CE
     SC -.-> CE
     SF -.-> SP
@@ -152,42 +142,33 @@ graph TB
 
 ```mermaid
 graph LR
-    %% Dark theme styles
-    classDef inputClass fill:#1a202c,stroke:#2d3748,stroke-width:2px,color:#e2e8f0
-    classDef processClass fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#e2e8f0
-    classDef outputClass fill:#2c1810,stroke:#744210,stroke-width:2px,color:#fef5e7
-    classDef secureClass fill:#1a1a2e,stroke:#16213e,stroke-width:2px,color:#e2e8f0
-
     subgraph "Multi-Sensor Data Flow"
-        direction LR
-
-        subgraph "Sensor Inputs"
-            RADAR[Radar Sensor<br/>360° Coverage<br/>100Hz Update]:::inputClass
-            LIDAR[LIDAR Sensor<br/>Point Cloud<br/>50Hz Update]:::inputClass
-            THERMAL[Thermal Camera<br/>IR Spectrum<br/>30Hz Update]:::inputClass
-            OPTICAL[Optical Camera<br/>RGB/NIR<br/>60Hz Update]:::inputClass
-            RF[RF Sensors<br/>Spectrum Analysis<br/>1kHz Update]:::inputClass
+        subgraph "📡 Sensor Inputs"
+            RADAR["Radar Sensor<br/>360° Coverage<br/>100Hz Update"]
+            LIDAR["LIDAR Sensor<br/>Point Cloud<br/>50Hz Update"]
+            THERMAL["Thermal Camera<br/>IR Spectrum<br/>30Hz Update"]
+            OPTICAL["Optical Camera<br/>RGB/NIR<br/>60Hz Update"]
+            RF["RF Sensors<br/>Spectrum Analysis<br/>1kHz Update"]
         end
 
-        subgraph "Processing Pipeline"
-            FUSION[Sensor Fusion<br/>Kalman Filter<br/>Multi-modal Integration]:::processClass
-            FPGA_PROC[FPGA Acceleration<br/>Real-time DSP<br/>Parallel Processing]:::processClass
-            AI_INFERENCE[AI/ML Inference<br/>TensorFlow Lite<br/>Edge Optimization]:::processClass
+        subgraph "⚙️ Processing Pipeline"
+            FUSION["Sensor Fusion<br/>Kalman Filter<br/>Multi-modal Integration"]
+            FPGA_PROC["FPGA Acceleration<br/>Real-time DSP<br/>Parallel Processing"]
+            AI_INFERENCE["AI/ML Inference<br/>TensorFlow Lite<br/>Edge Optimization"]
         end
 
-        subgraph "Output Systems"
-            THREAT_DB[Threat Database<br/>Real-time Updates<br/>Classification Results]:::outputClass
-            FLIGHT_CTRL[Flight Control<br/>Servo Commands<br/>Safety Overrides]:::outputClass
-            COMM_SYS[Communications<br/>Encrypted Channels<br/>Status Reports]:::outputClass
+        subgraph "🎯 Output Systems"
+            THREAT_DB["Threat Database<br/>Real-time Updates<br/>Classification Results"]
+            FLIGHT_CTRL["Flight Control<br/>Servo Commands<br/>Safety Overrides"]
+            COMM_SYS["Communications<br/>Encrypted Channels<br/>Status Reports"]
         end
 
-        subgraph "Security Layer"
-            CRYPTO[Hardware Crypto<br/>AES-256 Engine<br/>Key Management]:::secureClass
-            AUTH[Authentication<br/>PKI Certificates<br/>Access Control]:::secureClass
+        subgraph "🔒 Security Layer"
+            CRYPTO["Hardware Crypto<br/>AES-256 Engine<br/>Key Management"]
+            AUTH["Authentication<br/>PKI Certificates<br/>Access Control"]
         end
     end
 
-    %% Data flow connections
     RADAR --> FUSION
     LIDAR --> FUSION
     THERMAL --> FUSION
@@ -205,63 +186,85 @@ graph LR
     AUTH -.-> THREAT_DB
 ```
 
-### Technology Stack Mindmap
+### 🔧 Technology Stack Overview
 
 ```mermaid
 mindmap
-  root((AEGIS-SE<br/>Tech Stack))
+  root((AEGIS-SE<br/>Defense Platform))
     Embedded Systems
       C/C++ MISRA-C
         Flight Control
         Real-time Systems
         Memory Management
+        Safety Critical Code
       Ada/SPARK
         Formal Verification
-        Safety Critical
         Mathematical Proofs
+        Zero Runtime Errors
       RTOS Integration
-        VxWorks
-        FreeRTOS
+        VxWorks Support
+        FreeRTOS Support
         Deterministic Scheduling
     FPGA Hardware
       VHDL/Verilog
         Signal Processing
         Cryptographic Engines
         Custom Controllers
-      Xilinx Vivado
-        Synthesis
-        Place & Route
+        Parallel Processing
+      Xilinx Platform
+        Vivado Design Suite
+        Synthesis Tools
         Timing Analysis
       Hardware Security
-        AES-256 Engine
-        Random Number Gen
+        AES-256 Acceleration
+        Hardware RNG
         Tamper Detection
-    AI/ML Systems
+        Side-channel Protection
+    AI/ML Intelligence
       Python Ecosystem
         TensorFlow Lite
         ONNX Runtime
         NumPy/SciPy
+        scikit-learn
       Edge Deployment
         Model Quantization
         INT8 Optimization
-        Memory Constraints
+        Resource Constraints
+        Real-time Inference
       Threat Detection
         Multi-sensor Fusion
-        Real-time Inference
+        Pattern Recognition
+        Anomaly Detection
         Classification Models
     Security Framework
       Static Analysis
         MISRA C Compliance
         Polyspace Verification
         PC-lint Plus
+        Code Quality Gates
       Dynamic Testing
-        Valgrind Memory
+        Valgrind Memory Check
         AFL++ Fuzzing
         AddressSanitizer
+        Runtime Verification
       Formal Methods
-        CBMC Verification
+        CBMC Model Checking
         SPARK Proofs
-        Model Checking
+        Mathematical Verification
+        Correctness Guarantees
+    Development Tools
+      Build Systems
+        Make/CMake
+        Autotools
+        CI/CD Pipeline
+      Testing Frameworks
+        Unity/CppUTest
+        pytest
+        Hardware-in-Loop
+      Documentation
+        Doxygen
+        Sphinx
+        Markdown
 ```
 
 ### System Component Details
@@ -437,43 +440,34 @@ make coverage-report
 
 ```mermaid
 flowchart TD
-    %% Dark theme styles for AI/ML components
-    classDef sensorClass fill:#1a202c,stroke:#2d3748,stroke-width:2px,color:#e2e8f0
-    classDef processClass fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#e2e8f0
-    classDef aiClass fill:#2c1810,stroke:#744210,stroke-width:2px,color:#fef5e7
-    classDef outputClass fill:#1a1a2e,stroke:#16213e,stroke-width:2px,color:#e2e8f0
-
-    subgraph AIML ["AI/ML Threat Detection Pipeline"]
-        direction TD
-
-        subgraph SENSORS ["Multi-Sensor Input Layer"]
-            RADAR_IN[Radar Data<br/>Range/Doppler<br/>100Hz]:::sensorClass
-            LIDAR_IN[LIDAR Points<br/>3D Coordinates<br/>50Hz]:::sensorClass
-            THERMAL_IN[Thermal IR<br/>Temperature Map<br/>30Hz]:::sensorClass
-            OPTICAL_IN[RGB Camera<br/>Visual Spectrum<br/>60Hz]:::sensorClass
-            RF_IN[RF Spectrum<br/>Signal Analysis<br/>1kHz]:::sensorClass
+    subgraph AIML ["🤖 AI/ML Threat Detection Pipeline"]
+        subgraph SENSORS ["📡 Multi-Sensor Input Layer"]
+            RADAR_IN["Radar Data<br/>Range/Doppler<br/>100Hz"]
+            LIDAR_IN["LIDAR Points<br/>3D Coordinates<br/>50Hz"]
+            THERMAL_IN["Thermal IR<br/>Temperature Map<br/>30Hz"]
+            OPTICAL_IN["RGB Camera<br/>Visual Spectrum<br/>60Hz"]
+            RF_IN["RF Spectrum<br/>Signal Analysis<br/>1kHz"]
         end
 
-        subgraph FUSION ["Feature Extraction & Fusion"]
-            FEAT_EXT[Feature Extraction<br/>NumPy Processing<br/>Multi-modal Vectors]:::processClass
-            KALMAN[Kalman Filtering<br/>State Estimation<br/>Noise Reduction]:::processClass
-            DATA_FUSION[Data Fusion<br/>Sensor Correlation<br/>Confidence Weighting]:::processClass
+        subgraph FUSION ["⚙️ Feature Extraction & Fusion"]
+            FEAT_EXT["Feature Extraction<br/>NumPy Processing<br/>Multi-modal Vectors"]
+            KALMAN["Kalman Filtering<br/>State Estimation<br/>Noise Reduction"]
+            DATA_FUSION["Data Fusion<br/>Sensor Correlation<br/>Confidence Weighting"]
         end
 
-        subgraph INFERENCE ["AI/ML Inference Engine"]
-            TF_LITE[TensorFlow Lite<br/>Quantized Models<br/>INT8 Optimization]:::aiClass
-            ONNX_RT[ONNX Runtime<br/>Cross-platform<br/>GPU Acceleration]:::aiClass
-            CLASSIFIER[Threat Classifier<br/>6 Threat Types<br/>4 Severity Levels]:::aiClass
+        subgraph INFERENCE ["🧠 AI/ML Inference Engine"]
+            TF_LITE["TensorFlow Lite<br/>Quantized Models<br/>INT8 Optimization"]
+            ONNX_RT["ONNX Runtime<br/>Cross-platform<br/>GPU Acceleration"]
+            CLASSIFIER["Threat Classifier<br/>6 Threat Types<br/>4 Severity Levels"]
         end
 
-        subgraph OUTPUT ["Decision & Output Layer"]
-            THREAT_ASSESS[Threat Assessment<br/>Risk Calculation<br/>Confidence Scoring]:::outputClass
-            REAL_TIME[Real-time Alerts<br/>10ms Response<br/>Critical Notifications]:::outputClass
-            DATABASE[Threat Database<br/>Historical Data<br/>Pattern Learning]:::outputClass
+        subgraph OUTPUT ["🎯 Decision & Output Layer"]
+            THREAT_ASSESS["Threat Assessment<br/>Risk Calculation<br/>Confidence Scoring"]
+            REAL_TIME["Real-time Alerts<br/>10ms Response<br/>Critical Notifications"]
+            DATABASE["Threat Database<br/>Historical Data<br/>Pattern Learning"]
         end
     end
 
-    %% Data flow connections
     RADAR_IN --> FEAT_EXT
     LIDAR_IN --> FEAT_EXT
     THERMAL_IN --> FEAT_EXT
@@ -508,19 +502,12 @@ flowchart TD
 
 ```mermaid
 graph LR
-    %% Model architecture flow
-    classDef inputLayer fill:#1a202c,stroke:#2d3748,stroke-width:2px,color:#e2e8f0
-    classDef hiddenLayer fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#e2e8f0
-    classDef outputLayer fill:#2c1810,stroke:#744210,stroke-width:2px,color:#fef5e7
-
-    subgraph "Neural Network Architecture"
-        INPUT[Input Layer<br/>Multi-sensor Features<br/>256 dimensions]:::inputLayer
-
-        CONV1[Conv1D Layer<br/>Temporal Features<br/>128 filters]:::hiddenLayer
-        LSTM[LSTM Layer<br/>Sequence Learning<br/>64 units]:::hiddenLayer
-        DENSE1[Dense Layer<br/>Feature Fusion<br/>32 neurons]:::hiddenLayer
-
-        OUTPUT[Output Layer<br/>Threat Classification<br/>6 classes + confidence]:::outputLayer
+    subgraph "🧠 Neural Network Architecture"
+        INPUT["Input Layer<br/>Multi-sensor Features<br/>256 dimensions"]
+        CONV1["Conv1D Layer<br/>Temporal Features<br/>128 filters"]
+        LSTM["LSTM Layer<br/>Sequence Learning<br/>64 units"]
+        DENSE1["Dense Layer<br/>Feature Fusion<br/>32 neurons"]
+        OUTPUT["Output Layer<br/>Threat Classification<br/>6 classes + confidence"]
     end
 
     INPUT --> CONV1
