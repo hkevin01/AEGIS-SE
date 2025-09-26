@@ -3,10 +3,16 @@
  * @brief Advanced Flight Control System Header for AEGIS-SE Defense Platform
  * @version 1.0
  * @date 2024-09-26
- * 
+ *
  * @author AEGIS-SE Development Team
  * @copyright Department of Defense - UNCLASSIFIED
- * 
+ *
+ * REQUIREMENTS IMPLEMENTED:
+ * - REQ-F-001: Real-Time Flight Control (≥1000 Hz, ≤1ms latency)
+ * - REQ-F-002: Flight Envelope Protection (angle of attack, load factor, airspeed limiting)
+ * - REQ-NF-P-001: Control Loop Performance Requirements
+ * - REQ-NF-R-001: System Reliability and Fault Tolerance
+ *
  * MISRA C:2012 Compliant
  * DO-178C Level A Ready
  * External API for flight control subsystem
@@ -73,7 +79,7 @@ typedef struct
 typedef struct
 {
   float x;  /**< X-axis component */
-  float y;  /**< Y-axis component */ 
+  float y;  /**< Y-axis component */
   float z;  /**< Z-axis component */
   precise_timestamp_t timestamp;  /**< Data timestamp */
   bool valid;  /**< Data validity flag */
@@ -130,7 +136,7 @@ typedef struct
  * @return Error code indicating initialization result
  * @retval FLIGHT_CTRL_SUCCESS System initialized successfully
  * @retval FLIGHT_CTRL_ERROR_SYSTEM_FAULT Initialization failed
- * 
+ *
  * @pre System must be in uninitialized state
  * @post System transitions to FLIGHT_STATE_STANDBY if successful
  */
@@ -146,10 +152,10 @@ flight_control_error_t flight_control_initialize(void);
  * @retval FLIGHT_CTRL_ERROR_SENSOR_TIMEOUT Sensor data too old
  * @retval FLIGHT_CTRL_ERROR_BOUNDARY_VIOLATION Safety limits exceeded
  * @retval FLIGHT_CTRL_ERROR_REAL_TIME_VIOLATION Loop time exceeded 1ms
- * 
+ *
  * @pre System must be initialized
  * @post Control commands updated with latest calculations
- * 
+ *
  * @note This function must be called at 1kHz for proper operation
  * @note Execution time guaranteed < 1ms for real-time compliance
  */
@@ -162,7 +168,7 @@ flight_control_error_t flight_control_execute_loop(const sensor_data_t* sensor_i
  * @return Error code indicating success or failure
  * @retval FLIGHT_CTRL_SUCCESS Metrics retrieved successfully
  * @retval FLIGHT_CTRL_ERROR_INVALID_PARAM NULL pointer passed
- * 
+ *
  * @pre System must be initialized
  * @post Metrics structure populated with current data
  */
@@ -172,7 +178,7 @@ flight_control_error_t flight_control_get_metrics(performance_metrics_t* metrics
  * @brief Shutdown flight control system gracefully
  * @return Error code indicating shutdown result
  * @retval FLIGHT_CTRL_SUCCESS System shutdown successfully
- * 
+ *
  * @pre System can be in any state
  * @post System transitions to FLIGHT_STATE_SHUTDOWN
  * @post All control outputs set to safe neutral positions
@@ -183,7 +189,7 @@ flight_control_error_t flight_control_shutdown(void);
 /**
  * @brief Get current system state
  * @return Current flight system state
- * 
+ *
  * @note This function is always safe to call
  * @note Returns current state without side effects
  */
@@ -194,7 +200,7 @@ flight_system_state_t flight_control_get_state(void);
  * @return True if in emergency mode, false otherwise
  * @retval true System is in emergency state
  * @retval false System is in normal operation
- * 
+ *
  * @note This function is always safe to call
  * @note Can be used for external system coordination
  */

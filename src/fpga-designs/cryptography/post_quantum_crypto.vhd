@@ -92,6 +92,11 @@ end post_quantum_crypto;
 
 architecture Behavioral of post_quantum_crypto is
 
+    -- REQUIREMENTS IMPLEMENTATION:
+    -- REQ-F-007: Advanced Encryption (CRYSTALS-Kyber/Dilithium post-quantum algorithms)
+    -- REQ-F-008: High-Throughput Processing (hardware acceleration for quantum-resistant crypto)
+    -- REQ-S-001: Hardware Security Module (secure post-quantum key management)
+
     -- Operation Mode Constants
     constant OP_KYBER_KEYGEN    : STD_LOGIC_VECTOR(3 downto 0) := "0001";
     constant OP_KYBER_ENCRYPT   : STD_LOGIC_VECTOR(3 downto 0) := "0010";

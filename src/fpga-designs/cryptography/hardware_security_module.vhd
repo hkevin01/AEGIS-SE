@@ -7,6 +7,12 @@
 -- Version: 1.0
 -- Date: 2025-09-26
 --
+-- REQUIREMENTS IMPLEMENTED:
+-- - REQ-S-001: Hardware Security Module (FIPS 140-2 Level 4, secure key storage)
+-- - REQ-S-002: Side-Channel Protection (tamper detection, physical security)
+-- - REQ-F-007: Advanced Encryption (secure key management, hardware protection)
+-- - REQ-NF-R-001: System Reliability (tamper response, secure recovery)
+--
 -- Features:
 -- - Hardware tamper detection and response
 -- - Secure key storage with zeroization
