@@ -62,6 +62,13 @@ out/
 *.swo
 *~
 
+# Generated compliance reports (timestamped, not source code)
+reports/compliance/misra/misra_report_*.xml
+reports/compliance/security/security_report_*.txt
+reports/compliance/do178c/do178c_report_*.txt
+reports/compliance/**/*.html
+reports/compliance/**/*.json
+
 # IDE & Editor files
 .vscode/launch.json
 .vscode/tasks.json

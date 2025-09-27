@@ -1,0 +1,32 @@
+# AEGIS-SE Documentation Configuration
+PROJECT_NAME           = "AEGIS-SE"
+PROJECT_NUMBER         = "v2.0"
+PROJECT_BRIEF          = "Advanced Embedded Government Intelligence Systems - Software Engineering"
+
+# Input configuration
+INPUT                  = src/ README.md
+RECURSIVE              = YES
+FILE_PATTERNS          = *.c *.h *.cpp *.hpp *.py *.md
+
+# Output configuration
+OUTPUT_DIRECTORY       = docs
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+
+# Extraction configuration
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = YES
+
+# Documentation configuration
+JAVADOC_AUTOBRIEF      = YES
+TAB_SIZE               = 4
+
+# Diagram configuration
+HAVE_DOT               = YES
+DOT_GRAPH_MAX_NODES    = 50
+
+# Warning configuration
+QUIET                  = NO
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
