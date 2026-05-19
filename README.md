@@ -42,13 +42,13 @@ AEGIS-SE serves as a **comprehensive technology demonstrator** for next-generati
 
 ### 🎖️ Defense Applications & Use Cases
 
-| Application Domain | Technology Stack | Critical Requirements | Success Metrics |
+| <sub>Application Domain</sub> | <sub>Technology Stack</sub> | <sub>Critical Requirements</sub> | <sub>Success Metrics</sub> |
 |-------------------|------------------|----------------------|-----------------|
-| **Flight Control Systems** | Ada/SPARK + C/MISRA-C | <1ms response, 99.999% reliability | Zero safety incidents |
-| **Secure Communications** | C++ + FPGA encryption | AES-256, frequency hopping | 0% intercept rate |
-| **Sensor Fusion** | C + Python analytics | <10ms latency, multi-modal | >95% accuracy |
-| **Threat Detection** | Python + TensorFlow Lite | Real-time inference, <100ms | >99% detection rate |
-| **Predictive Maintenance** | ML + embedded telemetry | Fault prediction, cost optimization | 50% reduction in failures |
+| <sub>**Flight Control Systems**</sub> | <sub>Ada/SPARK + C/MISRA-C</sub> | <sub><1ms response, 99.999% reliability</sub> | <sub>Zero safety incidents</sub> |
+| <sub>**Secure Communications**</sub> | <sub>C++ + FPGA encryption</sub> | <sub>AES-256, frequency hopping</sub> | <sub>0% intercept rate</sub> |
+| <sub>**Sensor Fusion**</sub> | <sub>C + Python analytics</sub> | <sub><10ms latency, multi-modal</sub> | <sub>>95% accuracy</sub> |
+| <sub>**Threat Detection**</sub> | <sub>Python + TensorFlow Lite</sub> | <sub>Real-time inference, <100ms</sub> | <sub>>99% detection rate</sub> |
+| <sub>**Predictive Maintenance**</sub> | <sub>ML + embedded telemetry</sub> | <sub>Fault prediction, cost optimization</sub> | <sub>50% reduction in failures</sub> |
 
 ### 🧠 Why Each Technology Was Chosen
 
@@ -285,14 +285,14 @@ mindmap
 
 ### System Component Details
 
-| Component | Technology | Purpose | Performance Target | Current Status |
+| <sub>Component</sub> | <sub>Technology</sub> | <sub>Purpose</sub> | <sub>Performance Target</sub> | <sub>Current Status</sub> |
 |-----------|------------|---------|-------------------|----------------|
-| **Flight Control** | C/MISRA-C | Safety-critical flight operations | <1ms response time | ✅ **COMPLETE** - 11 tests passing |
-| **Threat Detection** | Python/TensorFlow+ONNX | Advanced AI/ML threat identification | <15ms inference | ✅ **ENHANCED** - Advanced AI/ML pipeline complete |
-| **Crypto Engine** | VHDL/AES-256 | Hardware-accelerated encryption | 10+ Gbps throughput | ✅ **IMPLEMENTED** |
-| **Sensor Fusion** | Python/Kalman | Multi-sensor data fusion & tracking | 10-20Hz real-time | ✅ **COMPLETE** - Advanced multi-sensor fusion |
-| **Communications** | C++/Encrypted | Secure tactical networking | 1Gbps+ bandwidth | 📋 **PLANNED** |
-| **Predictive Maintenance** | Python/ML | System health monitoring | >90% accuracy | 📋 **PLANNED** |
+| <sub>**Flight Control**</sub> | <sub>C/MISRA-C</sub> | <sub>Safety-critical flight operations</sub> | <sub><1ms response time</sub> | <sub>✅ **COMPLETE** - 11 tests passing</sub> |
+| <sub>**Threat Detection**</sub> | <sub>Python/TensorFlow+ONNX</sub> | <sub>Advanced AI/ML threat identification</sub> | <sub><15ms inference</sub> | <sub>✅ **ENHANCED** - Advanced AI/ML pipeline complete</sub> |
+| <sub>**Crypto Engine**</sub> | <sub>VHDL/AES-256</sub> | <sub>Hardware-accelerated encryption</sub> | <sub>10+ Gbps throughput</sub> | <sub>✅ **IMPLEMENTED**</sub> |
+| <sub>**Sensor Fusion**</sub> | <sub>Python/Kalman</sub> | <sub>Multi-sensor data fusion & tracking</sub> | <sub>10-20Hz real-time</sub> | <sub>✅ **COMPLETE** - Advanced multi-sensor fusion</sub> |
+| <sub>**Communications**</sub> | <sub>C++/Encrypted</sub> | <sub>Secure tactical networking</sub> | <sub>1Gbps+ bandwidth</sub> | <sub>📋 **PLANNED**</sub> |
+| <sub>**Predictive Maintenance**</sub> | <sub>Python/ML</sub> | <sub>System health monitoring</sub> | <sub>>90% accuracy</sub> | <sub>📋 **PLANNED**</sub> |
 
 ## 🚀 Quick Start
 
@@ -881,13 +881,13 @@ The Network Controller implements a comprehensive networking solution optimized 
 
 ### 📈 Performance Metrics & Benchmarks
 
-| VHDL Module | Clock Frequency | Throughput | Resource Utilization | Power Consumption |
+| <sub>VHDL Module</sub> | <sub>Clock Frequency</sub> | <sub>Throughput</sub> | <sub>Resource Utilization</sub> | <sub>Power Consumption</sub> |
 |-------------|----------------|------------|---------------------|-------------------|
-| **AES-256 Accelerator** | 200 MHz | 10.2 Gbps | 15% LUTs, 8% BRAMs | 2.1W |
-| **DSP Core Engine** | 400 MHz | 6.4 GSPS | 45% DSP48E2, 25% BRAMs | 4.7W |
-| **Post-Quantum Crypto** | 150 MHz | 1.8 Gbps | 35% LUTs, 40% BRAMs | 3.2W |
-| **System Controller** | 200 MHz | N/A | 8% LUTs, 5% BRAMs | 0.8W |
-| **Network Controller** | 125 MHz | 1 Gbps | 12% LUTs, 15% BRAMs | 1.4W |
+| <sub>**AES-256 Accelerator**</sub> | <sub>200 MHz</sub> | <sub>10.2 Gbps</sub> | <sub>15% LUTs, 8% BRAMs</sub> | <sub>2.1W</sub> |
+| <sub>**DSP Core Engine**</sub> | <sub>400 MHz</sub> | <sub>6.4 GSPS</sub> | <sub>45% DSP48E2, 25% BRAMs</sub> | <sub>4.7W</sub> |
+| <sub>**Post-Quantum Crypto**</sub> | <sub>150 MHz</sub> | <sub>1.8 Gbps</sub> | <sub>35% LUTs, 40% BRAMs</sub> | <sub>3.2W</sub> |
+| <sub>**System Controller**</sub> | <sub>200 MHz</sub> | <sub>N/A</sub> | <sub>8% LUTs, 5% BRAMs</sub> | <sub>0.8W</sub> |
+| <sub>**Network Controller**</sub> | <sub>125 MHz</sub> | <sub>1 Gbps</sub> | <sub>12% LUTs, 15% BRAMs</sub> | <sub>1.4W</sub> |
 
 **Total FPGA Utilization**: 65% LUTs, 78% BRAMs, 45% DSP48E2 slices
 **Total Power Consumption**: 12.2W (within 15W budget)
@@ -994,12 +994,12 @@ flowchart TD
 
 #### **AI/ML Framework Selection Rationale**
 
-| Framework | Use Case | Why Chosen | Performance Benefits |
+| <sub>Framework</sub> | <sub>Use Case</sub> | <sub>Why Chosen</sub> | <sub>Performance Benefits</sub> |
 |-----------|----------|------------|---------------------|
-| **TensorFlow Lite** | Edge inference deployment | Optimized for mobile/embedded, extensive quantization support | 70% smaller models, 3x faster inference |
-| **ONNX Runtime** | Cross-platform model serving | Hardware acceleration, broad model format support | GPU acceleration, vendor-neutral |
-| **NumPy** | Numerical processing | Highly optimized BLAS operations, C extension compatibility | Near-native C performance |
-| **Python Threading** | Concurrent processing | Native threading support, GIL management for I/O bound tasks | Real-time sensor data handling |
+| <sub>**TensorFlow Lite**</sub> | <sub>Edge inference deployment</sub> | <sub>Optimized for mobile/embedded, extensive quantization support</sub> | <sub>70% smaller models, 3x faster inference</sub> |
+| <sub>**ONNX Runtime**</sub> | <sub>Cross-platform model serving</sub> | <sub>Hardware acceleration, broad model format support</sub> | <sub>GPU acceleration, vendor-neutral</sub> |
+| <sub>**NumPy**</sub> | <sub>Numerical processing</sub> | <sub>Highly optimized BLAS operations, C extension compatibility</sub> | <sub>Near-native C performance</sub> |
+| <sub>**Python Threading**</sub> | <sub>Concurrent processing</sub> | <sub>Native threading support, GIL management for I/O bound tasks</sub> | <sub>Real-time sensor data handling</sub> |
 
 #### **Model Architecture & Optimization**
 
@@ -1021,14 +1021,14 @@ graph LR
 
 ### Performance Metrics & Benchmarks
 
-| Performance Metric | Target Specification | Current Achievement | Optimization Technique |
+| <sub>Performance Metric</sub> | <sub>Target Specification</sub> | <sub>Current Achievement</sub> | <sub>Optimization Technique</sub> |
 |-------------------|---------------------|-------------------|------------------------|
-| **Inference Latency** | <10ms tactical response | 7.05ms average | INT8 quantization, model pruning |
-| **Threat Detection Accuracy** | >95% identification rate | >99% in testing | Multi-sensor fusion, ensemble methods |
-| **False Positive Rate** | <5% operational threshold | 2.3% current rate | Confidence thresholding, validation |
-| **Model Memory Usage** | <100MB embedded constraint | 45MB deployed size | Weight quantization, layer pruning |
-| **Power Consumption** | <5W continuous operation | 3.2W measured | Edge-optimized inference engine |
-| **Throughput Capacity** | 100+ detections/second | 142.6 detections/second | Parallel processing pipeline |
+| <sub>**Inference Latency**</sub> | <sub><10ms tactical response</sub> | <sub>7.05ms average</sub> | <sub>INT8 quantization, model pruning</sub> |
+| <sub>**Threat Detection Accuracy**</sub> | <sub>>95% identification rate</sub> | <sub>>99% in testing</sub> | <sub>Multi-sensor fusion, ensemble methods</sub> |
+| <sub>**False Positive Rate**</sub> | <sub><5% operational threshold</sub> | <sub>2.3% current rate</sub> | <sub>Confidence thresholding, validation</sub> |
+| <sub>**Model Memory Usage**</sub> | <sub><100MB embedded constraint</sub> | <sub>45MB deployed size</sub> | <sub>Weight quantization, layer pruning</sub> |
+| <sub>**Power Consumption**</sub> | <sub><5W continuous operation</sub> | <sub>3.2W measured</sub> | <sub>Edge-optimized inference engine</sub> |
+| <sub>**Throughput Capacity**</sub> | <sub>100+ detections/second</sub> | <sub>142.6 detections/second</sub> | <sub>Parallel processing pipeline</sub> |
 
 ### Advanced Features Implementation
 
@@ -1050,44 +1050,44 @@ graph LR
 
 ### Real-Time Performance Benchmarks
 
-| System Component | Target Performance | Current Achievement | Status | Test Coverage |
+| <sub>System Component</sub> | <sub>Target Performance</sub> | <sub>Current Achievement</sub> | <sub>Status</sub> | <sub>Test Coverage</sub> |
 |------------------|-------------------|-------------------|--------|---------------|
-| **Flight Control** | <1ms response time | 0.8ms average | ✅ **EXCEEDS** | 100% (11/11 tests) |
-| **Threat Detection** | <10ms inference | 7.05ms average | ✅ **EXCEEDS** | 100% (16/16 tests) |
-| **Crypto Engine** | 10+ Gbps throughput | Hardware ready | ✅ **READY** | Implementation complete |
-| **Sensor Fusion** | <10ms processing | In development | 🔄 **IN PROGRESS** | Architecture defined |
-| **System Availability** | 99.99% uptime | 99.95% achieved | 🟡 **CLOSE** | Monitoring active |
-| **Memory Usage** | <512MB embedded | 380MB current | ✅ **OPTIMAL** | Memory profiled |
+| <sub>**Flight Control**</sub> | <sub><1ms response time</sub> | <sub>0.8ms average</sub> | <sub>✅ **EXCEEDS**</sub> | <sub>100% (11/11 tests)</sub> |
+| <sub>**Threat Detection**</sub> | <sub><10ms inference</sub> | <sub>7.05ms average</sub> | <sub>✅ **EXCEEDS**</sub> | <sub>100% (16/16 tests)</sub> |
+| <sub>**Crypto Engine**</sub> | <sub>10+ Gbps throughput</sub> | <sub>Hardware ready</sub> | <sub>✅ **READY**</sub> | <sub>Implementation complete</sub> |
+| <sub>**Sensor Fusion**</sub> | <sub><10ms processing</sub> | <sub>In development</sub> | <sub>🔄 **IN PROGRESS**</sub> | <sub>Architecture defined</sub> |
+| <sub>**System Availability**</sub> | <sub>99.99% uptime</sub> | <sub>99.95% achieved</sub> | <sub>🟡 **CLOSE**</sub> | <sub>Monitoring active</sub> |
+| <sub>**Memory Usage**</sub> | <sub><512MB embedded</sub> | <sub>380MB current</sub> | <sub>✅ **OPTIMAL**</sub> | <sub>Memory profiled</sub> |
 
 ### AI/ML Performance Metrics
 
-| Model Component | Accuracy Target | Current Performance | Optimization Level | Deployment Status |
+| <sub>Model Component</sub> | <sub>Accuracy Target</sub> | <sub>Current Performance</sub> | <sub>Optimization Level</sub> | <sub>Deployment Status</sub> |
 |-----------------|----------------|-------------------|-------------------|-------------------|
-| **Threat Classification** | >95% accuracy | >99% in testing | INT8 quantized | ✅ **DEPLOYED** |
-| **Multi-sensor Fusion** | >90% correlation | 94% achieved | FP16 optimized | ✅ **OPERATIONAL** |
-| **Anomaly Detection** | <5% false positive | 2.3% current rate | Model pruned | ✅ **VALIDATED** |
-| **Inference Latency** | <100ms tactical | 7.05ms average | TensorFlow Lite | ✅ **EXCEEDS** |
-| **Model Size** | <100MB embedded | 45MB deployed | Quantized/pruned | ✅ **OPTIMIZED** |
+| <sub>**Threat Classification**</sub> | <sub>>95% accuracy</sub> | <sub>>99% in testing</sub> | <sub>INT8 quantized</sub> | <sub>✅ **DEPLOYED**</sub> |
+| <sub>**Multi-sensor Fusion**</sub> | <sub>>90% correlation</sub> | <sub>94% achieved</sub> | <sub>FP16 optimized</sub> | <sub>✅ **OPERATIONAL**</sub> |
+| <sub>**Anomaly Detection**</sub> | <sub><5% false positive</sub> | <sub>2.3% current rate</sub> | <sub>Model pruned</sub> | <sub>✅ **VALIDATED**</sub> |
+| <sub>**Inference Latency**</sub> | <sub><100ms tactical</sub> | <sub>7.05ms average</sub> | <sub>TensorFlow Lite</sub> | <sub>✅ **EXCEEDS**</sub> |
+| <sub>**Model Size**</sub> | <sub><100MB embedded</sub> | <sub>45MB deployed</sub> | <sub>Quantized/pruned</sub> | <sub>✅ **OPTIMIZED**</sub> |
 
 ### Security & Compliance Status
 
-| Standard/Framework | Requirement Level | Implementation Status | Validation Method | Compliance Score |
+| <sub>Standard/Framework</sub> | <sub>Requirement Level</sub> | <sub>Implementation Status</sub> | <sub>Validation Method</sub> | <sub>Compliance Score</sub> |
 |-------------------|------------------|----------------------|-------------------|------------------|
-| **MISRA C:2012** | Mandatory compliance | ✅ **100% COMPLIANT** | PC-lint Plus analysis | A+ Rating |
-| **DO-178C Level A** | Safety-critical ready | ✅ **FRAMEWORK READY** | Formal verification | Certification ready |
-| **FIPS 140-2 Level 3** | Crypto module compliance | ✅ **IMPLEMENTED** | Hardware security | Module validated |
-| **Common Criteria EAL4+** | Security evaluation | 🔄 **IN PROGRESS** | Third-party assessment | 85% complete |
-| **NIST Cybersecurity** | Framework alignment | ✅ **FULLY ALIGNED** | Security controls audit | 100% coverage |
+| <sub>**MISRA C:2012**</sub> | <sub>Mandatory compliance</sub> | <sub>✅ **100% COMPLIANT**</sub> | <sub>PC-lint Plus analysis</sub> | <sub>A+ Rating</sub> |
+| <sub>**DO-178C Level A**</sub> | <sub>Safety-critical ready</sub> | <sub>✅ **FRAMEWORK READY**</sub> | <sub>Formal verification</sub> | <sub>Certification ready</sub> |
+| <sub>**FIPS 140-2 Level 3**</sub> | <sub>Crypto module compliance</sub> | <sub>✅ **IMPLEMENTED**</sub> | <sub>Hardware security</sub> | <sub>Module validated</sub> |
+| <sub>**Common Criteria EAL4+**</sub> | <sub>Security evaluation</sub> | <sub>🔄 **IN PROGRESS**</sub> | <sub>Third-party assessment</sub> | <sub>85% complete</sub> |
+| <sub>**NIST Cybersecurity**</sub> | <sub>Framework alignment</sub> | <sub>✅ **FULLY ALIGNED**</sub> | <sub>Security controls audit</sub> | <sub>100% coverage</sub> |
 
 ### Development & Testing Metrics
 
-| Testing Category | Tests Passing | Code Coverage | Quality Gate | Automation Level |
+| <sub>Testing Category</sub> | <sub>Tests Passing</sub> | <sub>Code Coverage</sub> | <sub>Quality Gate</sub> | <sub>Automation Level</sub> |
 |------------------|---------------|---------------|--------------|------------------|
-| **Unit Tests** | 27/27 (100%) | 100% critical paths | ✅ **PASS** | Fully automated |
-| **Integration Tests** | 16/16 (100%) | 95% system coverage | ✅ **PASS** | CI/CD integrated |
-| **Performance Tests** | All benchmarks met | Real-time validated | ✅ **PASS** | Continuous monitoring |
-| **Security Tests** | Zero vulnerabilities | SAST/DAST clean | ✅ **PASS** | Automated scanning |
-| **Hardware-in-Loop** | HIL framework ready | Physical test setup | � **READY** | Manual + automated |
+| <sub>**Unit Tests**</sub> | <sub>27/27 (100%)</sub> | <sub>100% critical paths</sub> | <sub>✅ **PASS**</sub> | <sub>Fully automated</sub> |
+| <sub>**Integration Tests**</sub> | <sub>16/16 (100%)</sub> | <sub>95% system coverage</sub> | <sub>✅ **PASS**</sub> | <sub>CI/CD integrated</sub> |
+| <sub>**Performance Tests**</sub> | <sub>All benchmarks met</sub> | <sub>Real-time validated</sub> | <sub>✅ **PASS**</sub> | <sub>Continuous monitoring</sub> |
+| <sub>**Security Tests**</sub> | <sub>Zero vulnerabilities</sub> | <sub>SAST/DAST clean</sub> | <sub>✅ **PASS**</sub> | <sub>Automated scanning</sub> |
+| <sub>**Hardware-in-Loop**</sub> | <sub>HIL framework ready</sub> | <sub>Physical test setup</sub> | <sub>� **READY**</sub> | <sub>Manual + automated</sub> |
 
 ## 🤝 Contributing
 
